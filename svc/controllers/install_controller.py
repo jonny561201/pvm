@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from svc.services.folder_service import delete_tar_file
+from svc.services.folder_service import delete_tar_file, get_python_version_folders
 from svc.services.install_service import download_python, extract_zip
 
 
@@ -14,4 +14,9 @@ def install_orchestration(version: str):
     delete_tar_file(pvm_dir, file_name)
 
 
-install_orchestration('3.11.4')
+def get_python_versions():
+    pvm_dir = Path.home() / ".pvm"
+    directories = get_python_version_folders(pvm_dir)
+    versions = sorted([directory.name for directory in directories])
+    for version in versions:
+        print(version)
