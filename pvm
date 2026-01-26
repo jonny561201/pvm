@@ -6,6 +6,10 @@ def main():
     _register_commands(parser)
 
     args = parser.parse_args()
+    _execute_commands(args)
+
+
+def _execute_commands(args: argparse.Namespace):
     if args.command == 'use':
         print('Hello world')
 
