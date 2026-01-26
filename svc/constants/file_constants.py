@@ -2,8 +2,10 @@ from pathlib import Path
 
 
 class FileMode:
-    read_write_exec = 0o700
+    READ_WRITE_EXEC = 0o700
 
 
 class File:
-    pvm_dir = Path.home() / ".pvm"
+    PVM_DIR = Path.home() / '.pvm'
+    VERSION_DIR = Path.home() / '.pvm' / 'versions'
+    CURRENT_DIR = Path.home() / '.pvm' / 'current'

@@ -8,7 +8,7 @@ def create_pvm_directory():
     pvm_dir = Path.home() / ".pvm"
     pvm_dir.mkdir(parents=True, exist_ok=True)
     try:
-        os.chmod(pvm_dir, FileMode.read_write_exec)
+        os.chmod(pvm_dir, FileMode.READ_WRITE_EXEC)
     except PermissionError:
         pass
     return pvm_dir

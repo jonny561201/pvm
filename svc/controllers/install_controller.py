@@ -4,12 +4,12 @@ from svc.services.install_service import download_python, extract_zip
 
 
 def install_orchestration(version: str):
-    file_name = f"Python-{version}.tgz"
+    file_name = f"{version}.tgz"
     print('...downloading python version...')
-    download_python(File.pvm_dir, version, file_name)
+    download_python(File.PVM_DIR, version, file_name)
     print('...extracting python version...')
-    extract_zip(File.pvm_dir, file_name)
-    delete_tar_file(File.pvm_dir, file_name)
+    extract_zip(File.PVM_DIR, file_name)
+    delete_tar_file(File.PVM_DIR, file_name)
 
 
 def get_python_versions():
