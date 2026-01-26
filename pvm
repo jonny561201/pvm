@@ -16,6 +16,7 @@ def _execute_commands(args: argparse.Namespace):
     if args.command == 'use':
         print('Hello world')
     elif args.command == 'install':
+        print(args.python_version)
         install_orchestration()
 
 
@@ -27,12 +28,12 @@ def _register_commands(parser: argparse.ArgumentParser):
 
 def _register_subcommands(subparsers: argparse._SubParsersAction):
     use_parser = subparsers.add_parser('use', help='Select Python version')
-    use_parser.add_argument('python version', help='Version to use (e.g. 3.12)')
+    use_parser.add_argument('python_version', help='Version to use (e.g. 3.12)')
 
     subparsers.add_parser('list', help='List installed Python versions')
 
     install_parser = subparsers.add_parser('install', help='Install a new Python version')
-    install_parser.add_argument('python version', help='Version to install (e.g. 3.12)')
+    install_parser.add_argument('python_version', help='Version to install (e.g. 3.12)')
 
 
 if __name__ == '__main__':
