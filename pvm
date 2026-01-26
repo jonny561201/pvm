@@ -21,5 +21,10 @@ def _register_commands(parser: argparse.ArgumentParser):
     use_parser = subparsers.add_parser('use', help='Select Python version')
     use_parser.add_argument('version', help='Version to use (e.g. 3.12)')
 
+    subparsers.add_parser('list', help='List installed Python versions')
+
+    install_parser = subparsers.add_parser('install', help='Install a new Python version')
+    install_parser.add_argument('version', help='Version to install (e.g. 3.12)')
+
 if __name__ == '__main__':
     main()
