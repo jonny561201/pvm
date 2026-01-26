@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 
-from svc.controllers.install_controller import install_orchestration
+from svc.controllers.install_controller import install_orchestration, get_python_versions
 
 
 def main():
@@ -17,6 +17,8 @@ def _execute_commands(args: argparse.Namespace):
         print('Hello world')
     elif args.command == 'install':
         install_orchestration(args.python_version)
+    elif args.command == 'list':
+        get_python_versions()
 
 
 def _register_commands(parser: argparse.ArgumentParser):
