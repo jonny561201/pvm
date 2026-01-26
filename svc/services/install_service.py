@@ -7,11 +7,9 @@ import requests
 
 from svc.constants.file_constants import File
 
-pvm_dir = Path.home() / ".pvm"
 
-def download_python(version: str):
-    name = f"Python-{version}.tgz"
-    url = f"https://www.python.org/ftp/python/{version}/{name}"
+def download_python(pvm_dir: Path, version: str, file_name: str):
+    url = f"https://www.python.org/ftp/python/{version}/{file_name}"
 
     pvm_dir.mkdir(parents=True, exist_ok=True)
     try:
@@ -19,7 +17,7 @@ def download_python(version: str):
     except PermissionError:
         pass
 
-    out_path = pvm_dir / name
+    out_path = pvm_dir / file_name
     tmp_path = out_path.with_suffix(out_path.suffix + ".part")
 
     headers = {"User-Agent": "pvm-installer/1.0"}
@@ -31,3 +29,28 @@ def download_python(version: str):
                     f.write(chunk)
 
     os.replace(tmp_path, out_path)
+
+
+def extract_zip(zip_path: Path, filename: str):
+    file_path = zip_path / filename
+    with tarfile.open(file_path, "r:*") as tf:
+        for member in tf.getmembers():
+            member_name = member.name
+            if not member_name:
+                continue
+
+            target_path = (zip_path / member_name).resolve()
+
+            if member.isdir():
+                target_path.mkdir(parents=True, exist_ok=True)
+            else:
+                target_path.parent.mkdir(parents=True, exist_ok=True)
+                src = tf.extractfile(member)
+                if src is None:
+                    continue
+                with src, open(target_path, "wb") as dst:
+                    shutil.copyfileobj(src, dst)
+                try:
+                    os.chmod(target_path, member.mode)
+                except Exception:
+                    pass
