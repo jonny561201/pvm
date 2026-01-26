@@ -3,16 +3,18 @@ import argparse
 
 def main():
     parser = argparse.ArgumentParser(prog='pvm', description='python version manager')
-    subparsers = parser.add_subparsers(dest='command', required=True)
-
-    use_parser = subparsers.add_parser('use', help='Select Python version')
-    use_parser.add_argument('version', help='Version to use (e.g. 3.12)')
+    _register_commands(parser)
 
     args = parser.parse_args()
     if args.command == 'use':
         print('Hello world')
 
 
+def _register_commands(parser: argparse.ArgumentParser):
+    subparsers = parser.add_subparsers(dest='command', required=True)
+
+    use_parser = subparsers.add_parser('use', help='Select Python version')
+    use_parser.add_argument('version', help='Version to use (e.g. 3.12)')
 
 if __name__ == '__main__':
     main()
