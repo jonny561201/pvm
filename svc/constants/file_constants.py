@@ -7,5 +7,6 @@ class FileMode:
 
 class File:
     PVM_DIR = Path.home() / '.pvm'
-    VERSION_DIR = Path.home() / '.pvm' / 'versions'
-    CURRENT_DIR = Path.home() / '.pvm' / 'current'
+    VERSION_DIR = PVM_DIR / 'versions'
+    CURRENT_DIR = PVM_DIR / 'bin'
+    CURRENT_PYTHON = CURRENT_DIR / 'python'
