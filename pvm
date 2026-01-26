@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 import argparse
 
+from svc.controllers.install_controller import install_orchestration
+
+
 def main():
     parser = argparse.ArgumentParser(prog='pvm', description='python version manager')
     _register_commands(parser)
@@ -13,7 +16,7 @@ def _execute_commands(args: argparse.Namespace):
     if args.command == 'use':
         print('Hello world')
     elif args.command == 'install':
-        print('Installing version:', args.version)
+        install_orchestration()
 
 
 def _register_commands(parser: argparse.ArgumentParser):
