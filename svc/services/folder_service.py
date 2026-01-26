@@ -1,7 +1,8 @@
+import sys
 from pathlib import Path
 import os
 
-from svc.constants.file_constants import FileMode
+from svc.constants.file_constants import FileMode, File
 
 
 def create_pvm_directory():
@@ -30,3 +31,24 @@ def get_python_version_folders(pvm_dir: Path) -> list[Path]:
             version_folders.append(item)
 
     return version_folders
+
+
+def get_python_executable(version: str) -> Path:
+    python = File.CURRENT_PYTHON
+    if not python.is_file():
+        sys.exit(f"pvm: python {version} is not installed")
+    return python
+
+
+def set_global_python(version: str):
+    target = get_python_executable(version)
+    tmp_link = File.CURRENT_PYTHON.with_suffix(".tmp")
+
+    if tmp_link.exists() or tmp_link.is_symlink():
+        tmp_link.unlink()
+
+    os.symlink(target, tmp_link)
+
+    os.replace(tmp_link, File.CURRENT_PYTHON)
+
+    print(f"pvm: global python set to {version}")
