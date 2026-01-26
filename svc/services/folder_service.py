@@ -18,3 +18,15 @@ def delete_tar_file(pvm_dir: Path, filename: str):
     file_path = pvm_dir / filename
     if file_path.exists():
         file_path.unlink()
+
+
+def get_python_version_folders(pvm_dir: Path) -> list[Path]:
+    if not pvm_dir.exists():
+        return []
+
+    version_folders = []
+    for item in pvm_dir.iterdir():
+        if item.is_dir() and item.name.startswith("Python-"):
+            version_folders.append(item)
+
+    return version_folders
