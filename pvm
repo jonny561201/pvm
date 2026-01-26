@@ -15,6 +15,7 @@ def _execute_commands(args: argparse.Namespace):
 
 
 def _register_commands(parser: argparse.ArgumentParser):
+    parser.add_argument('--version', '-V', action='version', version='1.00', help='Version of PVM installed')
     subparsers = parser.add_subparsers(dest='command', required=True)
 
     use_parser = subparsers.add_parser('use', help='Select Python version')
