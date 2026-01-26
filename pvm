@@ -12,6 +12,8 @@ def main():
 def _execute_commands(args: argparse.Namespace):
     if args.command == 'use':
         print('Hello world')
+    elif args.command == 'install':
+        print('Installing version:', args.version)
 
 
 def _register_commands(parser: argparse.ArgumentParser):
