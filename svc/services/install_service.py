@@ -5,7 +5,7 @@ from pathlib import Path
 
 import requests
 
-from svc.constants.file_constants import File
+from svc.constants.file_constants import FileMode
 
 
 def download_python(pvm_dir: Path, version: str, file_name: str):
@@ -13,7 +13,7 @@ def download_python(pvm_dir: Path, version: str, file_name: str):
 
     pvm_dir.mkdir(parents=True, exist_ok=True)
     try:
-        os.chmod(pvm_dir, File.read_write_exec)
+        os.chmod(pvm_dir, FileMode.read_write_exec)
     except PermissionError:
         pass
 

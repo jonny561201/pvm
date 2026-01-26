@@ -1,14 +1,14 @@
 from pathlib import Path
 import os
 
-from svc.constants.file_constants import File
+from svc.constants.file_constants import FileMode
 
 
 def create_pvm_directory():
     pvm_dir = Path.home() / ".pvm"
     pvm_dir.mkdir(parents=True, exist_ok=True)
     try:
-        os.chmod(pvm_dir, File.read_write_exec)
+        os.chmod(pvm_dir, FileMode.read_write_exec)
     except PermissionError:
         pass
     return pvm_dir
