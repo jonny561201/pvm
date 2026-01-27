@@ -1,9 +1,6 @@
-import os
-
 from svc.constants.file_constants import File, Architecture, OS
-from svc.utilities.folder_utils import get_python_version_folders, set_global_python, delete_tar_file, \
-    create_version_directory
-from svc.utilities.install_utils import download_python, extract_zip, download_python_release
+from svc.utilities.folder_utils import get_python_version_folders, set_global_python, create_version_directory
+from svc.utilities.install_utils import extract_zip, download_python_release, delete_tar_file
 from svc.utilities.prebuilt_release_utils import get_python_release_tag, get_python_releases, filter_python_release
 
 
