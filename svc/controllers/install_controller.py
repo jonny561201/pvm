@@ -1,6 +1,6 @@
 from svc.constants.file_constants import File
-from svc.services.folder_service import delete_tar_file, get_python_version_folders
-from svc.services.install_service import download_python, extract_zip
+from svc.utilities.folder_utils import get_python_version_folders, set_global_python, delete_tar_file
+from svc.utilities.install_utils import download_python, extract_zip
 
 
 def install_orchestration(version: str):
