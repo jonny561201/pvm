@@ -5,12 +5,10 @@ from pathlib import Path
 
 import requests
 
-from svc.constants.file_constants import FileMode, OS, Architecture
+from svc.constants.file_constants import FileMode
 
 
-def download_python(pvm_dir: Path, version: str, file_name: str):
-    url = f"https://www.python.org/ftp/python/{version}/Python-{version}.tgz"
-
+def download_python_release(url: str, pvm_dir: Path, file_name: str):
     pvm_dir.mkdir(parents=True, exist_ok=True)
     try:
         os.chmod(pvm_dir, FileMode.READ_WRITE_EXEC)
@@ -54,3 +52,9 @@ def extract_zip(zip_path: Path, filename: str):
                     os.chmod(target_path, member.mode)
                 except Exception:
                     pass
+
+
+def delete_tar_file(pvm_dir: Path, filename: str):
+    file_path = pvm_dir / filename
+    if file_path.exists():
+        file_path.unlink()
