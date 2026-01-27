@@ -23,7 +23,8 @@ def create_version_directory(release: str):
     return version
 
 
-def get_python_version_folders(pvm_dir: Path) -> list[Path]:
+def get_python_version_folders() -> list[Path]:
+    pvm_dir = File.VERSION_DIR
     if not pvm_dir.exists():
         return []
 

@@ -17,7 +17,7 @@ def install_latest_release(version: str):
 
 
 def get_python_versions():
-    directories = get_python_version_folders(File.VERSION_DIR)
+    directories = get_python_version_folders()
     versions = sorted([directory.name for directory in directories])
     for version in versions:
         print(version)
