@@ -5,7 +5,16 @@ from pathlib import Path
 
 import requests
 
-from svc.constants.file_constants import FileMode
+from svc.constants.file_constants import FileMode, OS, Architecture
+
+
+def get_python_release_tag():
+    url = 'https://raw.githubusercontent.com/indygreg/python-build-standalone/latest-release/latest-release.json'
+    response = requests.get(url)
+    response.raise_for_status()
+
+    data = response.json()
+    return data.get("tag")
 
 
 def download_python(pvm_dir: Path, version: str, file_name: str):
