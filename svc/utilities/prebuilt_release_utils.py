@@ -24,11 +24,11 @@ def get_python_releases(tag: str):
     return data.get("assets", [])
 
 
-def filter_python_release(releases: List[dict], os: str, arch: str):
-    filtered_releases = list(filter(partial(__asset_match, os, arch), releases))
+def filter_python_release(releases: List[dict], version: str, os: str, arch: str):
+    filtered_releases = list(filter(partial(__asset_match, version, os, arch), releases))
     return [asset.get('browser_download_url') for asset in filtered_releases]
 
 
-def __asset_match(os: str, arch: str, asset: dict, ):
+def __asset_match(version: str, os: str, arch: str, asset: dict, ):
     name = asset.get("name")
-    return os in name and arch in name and 'install_only.tar.gz' in name
+    return os in name and arch in name and 'install_only.tar.gz' in name and version in name
