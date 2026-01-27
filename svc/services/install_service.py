@@ -16,6 +16,16 @@ def get_python_release_tag():
     data = response.json()
     return data.get("tag")
 
+def get_python_releases(tag: str):
+    if tag is None:
+        raise Exception("Unable to list of latest python releases")
+    url = f'https://api.github.com/repos/astral-sh/python-build-standalone/releases/tags/{tag}'
+    response = requests.get(url)
+    response.raise_for_status()
+
+    data = response.json()
+    return data.get("assets", [])
+
 
 def download_python(pvm_dir: Path, version: str, file_name: str):
     url = f"https://www.python.org/ftp/python/{version}/{file_name}"
