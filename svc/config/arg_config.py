@@ -29,5 +29,5 @@ def _register_subcommands(subparsers: argparse._SubParsersAction):
     install_parser = subparsers.add_parser('install', help='Install a new Python version')
     install_parser.add_argument('python_version', help='Version to install (e.g. 3.12)')
 
-    default_parser = subparsers.add_parser('default', help='List installed Python versions')
+    default_parser = subparsers.add_parser('default', help='Set the global Python default')
     default_parser.add_argument('python_version', help='Version to use (e.g. 3.12)')
