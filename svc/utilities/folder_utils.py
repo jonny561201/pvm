@@ -36,7 +36,7 @@ def get_python_version_folders() -> list[Path]:
     return version_folders
 
 
-def set_global_python(version: str):
+def set_global_python(version: str) -> str:
     folders = get_python_version_folders()
     folder = next((folder for folder in folders if version in folder.name) , None)
     if not folder:
@@ -49,6 +49,8 @@ def set_global_python(version: str):
 
     os.symlink(target, tmp_link)
     os.replace(tmp_link, File.CURRENT_PYTHON)
+
+    return folder.name
 
 
 def _get_full_version(url: str):

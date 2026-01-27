@@ -1,6 +1,6 @@
 from svc.constants.file_constants import File, Architecture, OS
 from svc.utilities.folder_utils import get_python_version_folders, set_global_python, create_version_directory
-from svc.utilities.install_utils import extract_zip, download_python_release, delete_tar_file
+from svc.utilities.install_utils import download_python_release, extract_zip, delete_tar_file
 from svc.utilities.prebuilt_release_utils import get_python_release_tag, get_python_releases, filter_python_release
 
 
@@ -24,5 +24,5 @@ def get_python_versions():
 
 
 def set_default_version(version: str):
-    set_global_python(version)
-    print(f"pvm: global python set to {version}")
+    version_folder = set_global_python(version)
+    print(f"pvm: global python set to {version_folder}")
