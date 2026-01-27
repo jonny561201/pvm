@@ -1,7 +1,9 @@
 import os
 import shutil
 import tarfile
+from functools import partial
 from pathlib import Path
+from typing import List
 
 import requests
 
@@ -25,6 +27,16 @@ def get_python_releases(tag: str):
 
     data = response.json()
     return data.get("assets", [])
+
+
+def filter_python_release(releases: List[dict], os: str, arch: str):
+    filtered_releases = list(filter(partial(__asset_match, os, arch), releases))
+    return [asset.get('browser_download_url') for asset in filtered_releases]
+
+
+def __asset_match(os: str, arch: str, asset: dict, ):
+    name = asset.get("name")
+    return os in name and arch in name and 'install_only.tar.gz' in name
 
 
 def download_python(pvm_dir: Path, version: str, file_name: str):
