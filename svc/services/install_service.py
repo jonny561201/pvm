@@ -13,7 +13,12 @@ def install_orchestration(version: str):
 
 
 def get_python_versions():
-    directories = get_python_version_folders(File.PVM_DIR)
+    directories = get_python_version_folders(File.VERSION_DIR)
     versions = sorted([directory.name for directory in directories])
     for version in versions:
         print(version)
+
+
+def set_default_version(version: str):
+    set_global_python(version)
+    print(f"pvm: global python set to {version}")
