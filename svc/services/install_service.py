@@ -5,18 +5,13 @@ from svc.utilities.prebuilt_release_utils import get_python_release_tag, get_pyt
 
 
 def get_latest_release_version(version: str):
-    print('...identifying latest release...')
     tag = get_python_release_tag()
-    print('...getting python releases...')
     releases = get_python_releases(tag)
-    # TODO: filter should take in version
-    release = filter_python_release(releases, OS.APPLE, Architecture.INTEL)
-    print('...downloading python version...')
+    release = filter_python_release(releases, version, OS.APPLE, Architecture.INTEL)
     file_name = f"{version}.tgz"
     folder_name = create_version_directory(release[0])
     directory = File.VERSION_DIR / folder_name
     download_python_release(release[0], directory, file_name)
-    print('...extracting python version...')
     extract_zip(directory, file_name)
     delete_tar_file(directory, file_name)
 

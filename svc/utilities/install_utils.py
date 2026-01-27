@@ -9,6 +9,7 @@ from svc.constants.file_constants import FileMode
 
 
 def download_python_release(url: str, pvm_dir: Path, file_name: str):
+    print('...downloading python version...')
     pvm_dir.mkdir(parents=True, exist_ok=True)
     try:
         os.chmod(pvm_dir, FileMode.READ_WRITE_EXEC)
@@ -30,6 +31,7 @@ def download_python_release(url: str, pvm_dir: Path, file_name: str):
 
 
 def extract_zip(zip_path: Path, filename: str):
+    print('...extracting python version...')
     file_path = zip_path / filename
     with tarfile.open(file_path, "r:*") as tf:
         for member in tf.getmembers():

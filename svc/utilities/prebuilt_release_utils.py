@@ -5,6 +5,7 @@ import requests
 
 
 def get_python_release_tag():
+    print('...getting python releases...')
     url = 'https://raw.githubusercontent.com/indygreg/python-build-standalone/latest-release/latest-release.json'
     response = requests.get(url)
     response.raise_for_status()
