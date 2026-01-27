@@ -1,15 +1,28 @@
-from svc.constants.file_constants import File
-from svc.utilities.folder_utils import get_python_version_folders, set_global_python, delete_tar_file
-from svc.utilities.install_utils import download_python, extract_zip
+import os
+
+from svc.constants.file_constants import File, Architecture, OS
+from svc.utilities.folder_utils import get_python_version_folders, set_global_python, delete_tar_file, \
+    create_version_directory
+from svc.utilities.install_utils import download_python, extract_zip, download_python_release
+from svc.utilities.prebuilt_release_utils import get_python_release_tag, get_python_releases, filter_python_release
 
 
-def install_orchestration(version: str):
-    file_name = f"{version}.tgz"
+def get_latest_release_version(version: str):
+    print('...identifying latest release...')
+    tag = get_python_release_tag()
+    print('...getting python releases...')
+    releases = get_python_releases(tag)
+    # TODO: filter should take in version
+    release = filter_python_release(releases, OS.APPLE, Architecture.INTEL)
     print('...downloading python version...')
-    download_python(File.VERSION_DIR, version, file_name)
+    file_name = f"{version}.tgz"
+    folder_name = create_version_directory(release[0])
+    directory = File.VERSION_DIR / folder_name
+    download_python_release(release[0], directory, file_name)
     print('...extracting python version...')
-    extract_zip(File.VERSION_DIR, file_name)
-    delete_tar_file(File.VERSION_DIR, file_name)
+    extract_zip(directory, file_name)
+    delete_tar_file(directory, file_name)
+
 
 
 def get_python_versions():
