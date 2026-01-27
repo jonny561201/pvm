@@ -4,7 +4,7 @@ from svc.utilities.install_utils import extract_zip, download_python_release, de
 from svc.utilities.prebuilt_release_utils import get_python_release_tag, get_python_releases, filter_python_release
 
 
-def get_latest_release_version(version: str):
+def install_latest_release(version: str):
     tag = get_python_release_tag()
     releases = get_python_releases(tag)
     release = filter_python_release(releases, version, OS.APPLE, Architecture.INTEL)
@@ -14,7 +14,6 @@ def get_latest_release_version(version: str):
     download_python_release(release[0], directory, file_name)
     extract_zip(directory, file_name)
     delete_tar_file(directory, file_name)
-
 
 
 def get_python_versions():
