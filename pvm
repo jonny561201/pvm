@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 
-from svc.controllers.install_controller import install_orchestration, get_python_versions
+from svc.services.install_service import install_orchestration, get_python_versions, set_default_version
 
 
 def main():
@@ -19,6 +19,8 @@ def _execute_commands(args: argparse.Namespace):
         install_orchestration(args.python_version)
     elif args.command == 'list':
         get_python_versions()
+    elif args.command == 'default':
+        set_default_version(args.python_version)
 
 
 def _register_commands(parser: argparse.ArgumentParser):
@@ -35,6 +37,9 @@ def _register_subcommands(subparsers: argparse._SubParsersAction):
 
     install_parser = subparsers.add_parser('install', help='Install a new Python version')
     install_parser.add_argument('python_version', help='Version to install (e.g. 3.12)')
+
+    default_parser = subparsers.add_parser('default', help='List installed Python versions')
+    default_parser.add_argument('python_version', help='Version to use (e.g. 3.12)')
 
 
 if __name__ == '__main__':
