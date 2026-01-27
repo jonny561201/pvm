@@ -37,7 +37,11 @@ def get_python_version_folders() -> list[Path]:
 
 
 def set_global_python(version: str):
-    target = _get_python_executable(version)
+    folders = get_python_version_folders()
+    folder = next((folder for folder in folders if version in folder.name) , None)
+    if not folder:
+        raise ValueError(f"python {version} is not installed")
+    target = _get_python_executable(folder.name)
     tmp_link = File.CURRENT_PYTHON.with_suffix(".tmp")
 
     if tmp_link.exists() or tmp_link.is_symlink():
@@ -58,8 +62,8 @@ def _get_full_version(url: str):
     return f"python-{major}.{minor}.{patch}"
 
 
-def _get_python_executable(version: str) -> Path:
-    python = File.VERSION_DIR / f'Python-{version}' / 'bin' / 'python'
+def _get_python_executable(folder: str) -> Path:
+    python = File.VERSION_DIR / folder / 'python' / 'bin' / 'python'
     if not python.is_file():
-        sys.exit(f"python {version} is not installed")
+        sys.exit(f"python {folder} is not installed")
     return python
