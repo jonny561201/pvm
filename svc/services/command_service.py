@@ -26,3 +26,7 @@ def get_python_versions():
 def set_default_version(version: str):
     version_folder = set_global_python(version)
     print(f"pvm: global python set to {version_folder}")
+
+
+def use_python_version(version: str):
+    print(f"pvm: using python version {version}")

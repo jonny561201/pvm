@@ -6,7 +6,7 @@ from svc.services.command_service import install_latest_release, get_python_vers
 
 def execute_commands(args: argparse.Namespace):
     if args.command == 'use':
-        print('Hello world')
+        use_python_version(args.python_version)
     elif args.command == 'install':
         install_latest_release(args.python_version)
     elif args.command == 'list':
