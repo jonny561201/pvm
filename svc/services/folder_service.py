@@ -33,22 +33,19 @@ def get_python_version_folders(pvm_dir: Path) -> list[Path]:
     return version_folders
 
 
-def get_python_executable(version: str) -> Path:
-    python = File.CURRENT_PYTHON
-    if not python.is_file():
-        sys.exit(f"pvm: python {version} is not installed")
-    return python
-
-
 def set_global_python(version: str):
-    target = get_python_executable(version)
+    target = _get_python_executable(version)
     tmp_link = File.CURRENT_PYTHON.with_suffix(".tmp")
 
     if tmp_link.exists() or tmp_link.is_symlink():
         tmp_link.unlink()
 
     os.symlink(target, tmp_link)
-
     os.replace(tmp_link, File.CURRENT_PYTHON)
 
-    print(f"pvm: global python set to {version}")
+
+def _get_python_executable(version: str) -> Path:
+    python = File.VERSION_DIR / f'Python-{version}' / 'bin' / 'python'
+    if not python.is_file():
+        sys.exit(f"python {version} is not installed")
+    return python
