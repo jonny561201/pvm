@@ -1,6 +1,7 @@
 import argparse
 
-from svc.services.install_service import install_latest_release, get_python_versions, set_default_version
+from svc.services.command_service import install_latest_release, get_python_versions, set_default_version, \
+    use_python_version
 
 
 def execute_commands(args: argparse.Namespace):
