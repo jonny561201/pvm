@@ -1,3 +1,4 @@
+import re
 import sys
 from pathlib import Path
 import os
@@ -15,10 +16,11 @@ def create_pvm_directory():
     return pvm_dir
 
 
-def delete_tar_file(pvm_dir: Path, filename: str):
-    file_path = pvm_dir / filename
-    if file_path.exists():
-        file_path.unlink()
+def create_version_directory(release: str):
+    version = _get_full_version(release)
+    os.makedirs(File.VERSION_DIR / version, exist_ok=True)
+
+    return version
 
 
 def get_python_version_folders(pvm_dir: Path) -> list[Path]:
@@ -42,6 +44,17 @@ def set_global_python(version: str):
 
     os.symlink(target, tmp_link)
     os.replace(tmp_link, File.CURRENT_PYTHON)
+
+
+def _get_full_version(url: str):
+    pattern = r"cpython-(\d+)\.(\d+)\.(\d+)(?=(?:\+|%2B)\d+)"
+
+    m = re.search(pattern, url)
+    if not m:
+        raise ValueError("No Python version found")
+
+    major, minor, patch = m.groups()
+    return f"python-{major}.{minor}.{patch}"
 
 
 def _get_python_executable(version: str) -> Path:
