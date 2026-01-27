@@ -29,7 +29,7 @@ def get_python_version_folders(pvm_dir: Path) -> list[Path]:
 
     version_folders = []
     for item in pvm_dir.iterdir():
-        if item.is_dir() and item.name.startswith("Python-"):
+        if item.is_dir() and item.name.startswith("python-"):
             version_folders.append(item)
 
     return version_folders
