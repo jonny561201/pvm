@@ -10,3 +10,13 @@ class File:
     VERSION_DIR = PVM_DIR / 'versions'
     CURRENT_DIR = PVM_DIR / 'bin'
     CURRENT_PYTHON = CURRENT_DIR / 'python'
+
+
+class OS:
+    APPLE = 'apple-darwin'
+    WINDOWS = 'windows'
+
+
+class Architecture:
+    ARM = 'aarch64'
+    INTEL = 'x86_64'
