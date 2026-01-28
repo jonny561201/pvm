@@ -24,14 +24,11 @@ def create_version_directory(release: str):
 
 
 def get_python_version_folders() -> list[Path]:
-    pvm_dir = File.VERSION_DIR
-    if not pvm_dir.exists():
+    version_dir = File.VERSION_DIR
+    if not version_dir.exists():
         return []
 
-    version_folders = []
-    for item in pvm_dir.iterdir():
-        if item.is_dir() and item.name.startswith("python-"):
-            version_folders.append(item)
+    return [folder for folder in version_dir.iterdir() if folder.is_dir() and folder.name.startswith("python-")]
 
     return version_folders
 
