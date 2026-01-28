@@ -1,4 +1,3 @@
-from functools import partial
 from typing import List
 
 import requests
@@ -24,9 +23,9 @@ def get_python_releases(tag: str):
     return data.get("assets", [])
 
 
-def filter_python_release(releases: List[dict], version: str, os: str, arch: str):
-    filtered_releases = list(filter(partial(__asset_match, version, os, arch), releases))
-    return [asset.get('browser_download_url') for asset in filtered_releases]
+def find_python_release(releases: List[dict], version: str, os: str, arch: str):
+    match = next((asset.get("browser_download_url") for asset in releases if __asset_match(version, os, arch, asset)), None)
+    return match
 
 
 def __asset_match(version: str, os: str, arch: str, asset: dict, ):
