@@ -25,6 +25,8 @@ def get_python_releases(tag: str):
 
 def find_python_release(releases: List[dict], version: str, os: str, arch: str):
     match = next((asset.get("browser_download_url") for asset in releases if __asset_match(version, os, arch, asset)), None)
+    if not match:
+        raise Exception(f"Unable to find python release for version {version}")
     return match
 
 
