@@ -30,7 +30,16 @@ def get_python_version_folders() -> list[Path]:
 
     return [folder for folder in version_dir.iterdir() if folder.is_dir() and folder.name.startswith("python-")]
 
-    return version_folders
+
+def find_python_version(version: str):
+    version_dir = File.VERSION_DIR
+    if not version_dir.exists():
+        raise ValueError(f"python {version} is not installed")
+
+    for item in version_dir.iterdir():
+        if item.is_dir() and version in item.name:
+            return item.name
+    raise ValueError(f"python {version} is not installed")
 
 
 def set_global_python(version: str) -> str:
