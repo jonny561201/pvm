@@ -28,7 +28,7 @@ def get_python_version_folders() -> list[Path]:
     if not version_dir.exists():
         return []
 
-    return [folder for folder in version_dir.iterdir() if folder.is_dir() and folder.name.startswith("python-")]
+    return list(filter(lambda folder: folder.is_dir() and folder.name.startswith("python-"), version_dir.iterdir()))
 
 
 def find_python_version(version: str):
