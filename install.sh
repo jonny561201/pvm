@@ -6,6 +6,7 @@ ZSHRC="$HOME/.zshrc"
 BASHRC="$HOME/.bashrc"
 PVM_PATH_LINE='export PATH="$HOME/.pvm/bin:$PATH"'
 PVM_SOURCE_LINE='source "$HOME/.pvm/sh/pvm.sh"'
+GITHUB_URL="https://raw.githubusercontent.com/jonny561201/pvm/main"
 
 
 function create_pvm_directory() {
@@ -39,14 +40,15 @@ function update_rc_file() {
   fi
 }
 
+
 function download_assets() {
   mkdir -p "$DIR/bin" "$DIR/sh"
   echo "Downloading assets..."
 
-  curl -L "https://raw.githubusercontent.com/your-user/pvm/main/assets/pvm" -o "$DIR/bin/pvm"
-  curl -L "https://raw.githubusercontent.com/your-user/pvm/main/assets/pvm.sh" -o "$DIR/sh/pvm.sh"
-  curl -L "https://raw.githubusercontent.com/your-user/pvm/main/svc" -o "$DIR/bin/svc"
-  curl -L "https://raw.githubusercontent.com/your-user/pvm/main/pvm" -o "$DIR/bin/pvm"
+  curl -L "$GITHUB_URL/assets/pvm" -o "$DIR/bin/pvm"
+  curl -L "$GITHUB_URL/svc" -o "$DIR/bin/svc"
+  curl -L "$GITHUB_URL/assets/pvm.sh" -o "$DIR/sh/pvm.sh"
+  curl -L "$GITHUB_URL/pvm" -o "$DIR/bin/pvm"
 
   chmod +x "$DIR/bin/pvm" "$DIR/sh/pvm.sh"
 }
