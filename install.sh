@@ -28,7 +28,7 @@ function update_rc_file() {
     echo "Warning: no shell rc file found; create one and add:"
     echo 'export PATH="$HOME/.pvm/bin:$PATH"'
     echo 'source "$HOME/.pvm/sh/pvm.sh"'
-    exit
+    exit 1
   fi
 
   if ! grep -qxF "$PVM_PATH_LINE" "$RC_FILE"; then
@@ -54,6 +54,15 @@ function download_assets() {
 }
 
 
+function success_message() {
+  echo "----------------------------"
+  echo "pvm installed."
+  echo "Run: source $RC_FILE"
+  echo "or open a new terminal."
+}
+
+
 create_pvm_directory
 download_assets
 update_rc_file
+success_message
