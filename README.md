@@ -30,3 +30,10 @@
 - This will add complexity but is necessary for full version management
 - Need to start grabbing users OS/CPU Architecture to download correct python builds
 - Right now it only grabs latest releases....need to support historical builds too
+
+# Install #
+- Linux / MacOS
+`curl -fsSL https://raw.githubusercontent.com/jonny561201/pvm/main/install.sh -o install.sh && chmod +x install.sh && ./install.sh`
+
+- Windows (Powershell)
+`iwr -useb https://raw.githubusercontent.com/jonny561201/pvm/main/install.ps1 | iex`
