@@ -45,8 +45,8 @@ function download_assets() {
 
   curl -L "https://raw.githubusercontent.com/your-user/pvm/main/assets/pvm" -o "$DIR/bin/pvm"
   curl -L "https://raw.githubusercontent.com/your-user/pvm/main/assets/pvm.sh" -o "$DIR/sh/pvm.sh"
-  curl -L "https://raw.githubusercontent.com/your-user/pvm/main/app/svc" -o "$DIR/bin/svc"
-  curl -L "https://raw.githubusercontent.com/your-user/pvm/main/app/pvm" -o "$DIR/bin/pvm"
+  curl -L "https://raw.githubusercontent.com/your-user/pvm/main/svc" -o "$DIR/bin/svc"
+  curl -L "https://raw.githubusercontent.com/your-user/pvm/main/pvm" -o "$DIR/bin/pvm"
 
   chmod +x "$DIR/bin/pvm" "$DIR/sh/pvm.sh"
 }
