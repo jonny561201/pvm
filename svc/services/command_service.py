@@ -12,7 +12,7 @@ from svc.utilities.prebuilt_release_utils import get_python_release_tag, get_pyt
 def install_latest_release(version: str):
     tag = get_python_release_tag()
     releases = get_python_releases(tag)
-    release = find_python_release(releases, version, OS.APPLE, Architecture.INTEL)
+    release = find_python_release(releases, version, OS.get_os_name(), Architecture.INTEL)
     file_name = f"{version}.tgz"
     folder_name = create_version_directory(release)
 
