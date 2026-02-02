@@ -34,19 +34,20 @@ def get_python_version_folders() -> list[Path]:
 def find_python_version(version: str):
     version_dir = File.VERSION_DIR
     if not version_dir.exists():
-        raise ValueError(f"python {version} is not installed")
+        sys.exit(f"python {version} is not installed")
 
     for item in version_dir.iterdir():
         if item.is_dir() and version in item.name:
             return item.name
-    raise ValueError(f"python {version} is not installed")
+    sys.exit(f"python {version} is not installed")
 
 
 def set_global_python(version: str) -> str:
     folders = get_python_version_folders()
     folder = next((folder for folder in folders if version in folder.name) , None)
     if not folder:
-        raise ValueError(f"python {version} is not installed")
+        sys.exit(f"python {version} is not installed")
+
     target = _get_python_executable(folder.name)
     tmp_link = File.CURRENT_PYTHON.with_suffix(".tmp")
 
@@ -62,8 +63,7 @@ def ensure_version_not_installed(version: str):
     directories = get_python_version_folders()
     folder = next((folder for folder in directories if version in folder.name), None)
     if folder:
-        print(f"python {version} is already installed")
-        exit()
+        sys.exit(f"python {version} is not installed")
 
 
 def _get_full_version(url: str):
@@ -71,7 +71,7 @@ def _get_full_version(url: str):
 
     m = re.search(pattern, url)
     if not m:
-        raise ValueError("No Python version found")
+        sys.exit("No Python version found to create python version folder")
 
     major, minor, patch = m.groups()
     return f"python-{major}.{minor}.{patch}"
