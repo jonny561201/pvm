@@ -45,7 +45,7 @@ function update_rc_file() {
 function download_extract_assets() {
   TMP_ZIP="/tmp/pvm-main.zip"
   curl -L "https://github.com/jonny561201/pvm/archive/refs/heads/main.zip" -o "$TMP_ZIP"
-  unzip "$TMP_ZIP" "pvm-main/*" -d "$DIR"
+  unzip -q "$TMP_ZIP" "pvm-main/*" -d "$DIR"
   rm "$TMP_ZIP"
 
   cp -r "$DIR/pvm-main/svc" "$DIR/bin/"
