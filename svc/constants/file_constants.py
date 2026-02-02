@@ -20,12 +20,12 @@ class OS:
     APPLE = 'apple-darwin'
     WINDOWS = 'windows'
     LINUX = 'linux'
-    _mapping = {'linux': LINUX, 'windows': WINDOWS, 'darwin': APPLE, 'win32': WINDOWS}
+    _mapping = {'linux': LINUX, 'windows': WINDOWS, 'darwin': APPLE, 'win32': WINDOWS, 'msys': WINDOWS, 'cygwin': WINDOWS}
 
     @staticmethod
     def get_os_name():
         system = sys.platform
-        return OS._mapping.get(system, system.lower())
+        return OS._mapping.get(system.lower(), system.lower())
 
 
 class Architecture:
