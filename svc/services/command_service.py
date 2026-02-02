@@ -11,10 +11,11 @@ from svc.utilities.prebuilt_release_utils import get_python_release_tag, get_pyt
 
 
 # TODO: stop hard coding OS and Architecture
+# TODO: dont redownload the same version
 def install_latest_release(version: str):
     tag = get_python_release_tag()
     releases = get_python_releases(tag)
-    release = find_python_release(releases, version, OS.get_os_name(), Architecture.INTEL)
+    release = find_python_release(releases, version, OS.detect(), Architecture.detect())
     file_name = f"{version}.tgz"
     folder_name = create_version_directory(release)
 

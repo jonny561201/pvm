@@ -24,7 +24,7 @@ class OS:
     _mapping = {'linux': LINUX, 'windows': WINDOWS, 'darwin': APPLE, 'win32': WINDOWS, 'msys': WINDOWS, 'cygwin': WINDOWS}
 
     @staticmethod
-    def get_os():
+    def detect():
         system = sys.platform.lower()
         return OS._mapping.get(system, system)
 
@@ -35,6 +35,6 @@ class Architecture:
     _mapping = {'arm64': ARM, 'aarch64': ARM, 'armv7l': ARM, 'armv6l': ARM, 'x86_64': INTEL, 'AMD64': INTEL, 'i386': INTEL, 'i686': INTEL}
 
     @staticmethod
-    def get_arch():
+    def detect():
         machine = platform.machine().lower()
         return Architecture._mapping.get(machine, machine)
