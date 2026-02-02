@@ -9,20 +9,26 @@ class requests:
         http_request = request.Request(url, headers=headers, method="GET")
 
         try:
-            with request.urlopen(http_request, timeout=timeout) as response:
-                body_bytes = response.read()
-                body_string = body_bytes.decode('utf-8')
-
-                return Response(response.status, body_string)
+            resp = request.urlopen(http_request, timeout=timeout)
+            return Response(resp, stream=stream)
 
         except Exception as e:
             print(f"An error occurred: {e}")
 
 
 class Response:
-    def __init__(self, status_code: int, content: str):
-        self.status_code = status_code
-        self.content = content
+    def __init__(self, raw_content: HTTPResponse, stream=False):
+        self.status_code = raw_content.status
+        self._raw_content = raw_content
+        self.stream = stream
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        if self._raw_content:
+            self._raw_content.close()
+
 
     def raise_for_status(self):
         error_message = ''
@@ -35,4 +41,13 @@ class Response:
             raise Exception(error_message)
 
     def json(self):
-        return json.loads(self.content)
+        response = self._raw_content.read()
+        content = response.decode('utf-8')
+        return json.loads(content)
+
+    def iter_content(self, chunk_size=8192):
+        while True:
+            chunk = self._raw_content.read(chunk_size)
+            if not chunk:
+                break
+            yield chunk
