@@ -47,7 +47,8 @@ def use_python_version(version: str):
 
     print(f"export PATH={new_path}")
     print(f'export PVM_VERSION="{folder}"')
-    print(f"pvm: using python version {folder}")
+    version_msg = f"pvm: using python version {folder}"
+    print(shlex.quote(version_msg))
 
 
 def _remove_existing_versions_from_path(paths: str):
