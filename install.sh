@@ -45,13 +45,15 @@ function update_rc_file() {
 function download_extract_assets() {
   TMP_ZIP="/tmp/pvm-main.zip"
   curl -L "https://github.com/jonny561201/pvm/archive/refs/heads/main.zip" -o "$TMP_ZIP"
-  unzip -q "$TMP_ZIP" "pvm-main/*" -d "$DIR"
+  unzip -q "$TMP_ZIP" -d "$DIR"
   rm "$TMP_ZIP"
 }
 
 function validate_extraction() {
-  if [ ! -d "$DIR/pvm-main" ]; then
+  if [ ! -d "$DIR/pvm-main/svc" ] || [ ! -d "$DIR/pvm-main/assets"]; then
     echo "Error: Failed to unzip the installation zip from github!"
+    echo "Contents of $DIR:"
+    ls -R "$DIR"
     exit 1
   fi
 }
