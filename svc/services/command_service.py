@@ -1,5 +1,6 @@
 import os
 import re
+import shlex
 
 from svc.constants.file_constants import File, Architecture, OS
 from svc.utilities.folder_utils import get_python_version_folders, set_global_python, create_version_directory, \
@@ -38,10 +39,13 @@ def set_default_version(version: str):
 
 def use_python_version(version: str):
     folder = find_python_version(version)
-    executable = File.VERSION_DIR / folder / "bin" / "python"
+    executable = File.VERSION_DIR / folder / "bin"
     paths = os.environ.get('PATH')
     update_paths = _remove_existing_versions_from_path(paths)
-    print(f"export PATH={executable.absolute()}:{update_paths}")
+
+    new_path = shlex.quote(f'{executable.absolute()}:{update_paths}')
+
+    print(f"export PATH={new_path}")
     print(f'export PVM_VERSION="{folder}"')
     print(f"pvm: using python version {folder}")
 
