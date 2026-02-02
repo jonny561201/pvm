@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 
@@ -18,6 +19,13 @@ class File:
 class OS:
     APPLE = 'apple-darwin'
     WINDOWS = 'windows'
+    LINUX = 'linux'
+    _mapping = {'linux': LINUX, 'windows': WINDOWS, 'darwin': APPLE}
+
+    @staticmethod
+    def get_os_name():
+        system = sys.platform
+        return OS._mapping.get(system, system.lower())
 
 
 class Architecture:
