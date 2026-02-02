@@ -1,6 +1,7 @@
 import os
 import re
 import shlex
+import sys
 
 from svc.constants.file_constants import File, Architecture, OS
 from svc.utilities.folder_utils import get_python_version_folders, set_global_python, create_version_directory, \
@@ -47,8 +48,7 @@ def use_python_version(version: str):
 
     print(f"export PATH={new_path}")
     print(f'export PVM_VERSION="{folder}"')
-    version_msg = f"pvm: using python version {folder}"
-    print(shlex.quote(version_msg))
+    print(f"pvm: using python version {folder}", file=sys.stderr)
 
 
 def _remove_existing_versions_from_path(paths: str):
