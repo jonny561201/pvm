@@ -40,8 +40,8 @@ def use_python_version(version: str):
     paths = os.environ.get('PATH')
     update_paths = _remove_existing_versions_from_path(paths)
     print(f"export PATH={executable.absolute()}:{update_paths}")
-    print(f'export PVM_VERSION="{folder.name}"')
-    print(f"pvm: using python version {folder.name}")
+    print(f'export PVM_VERSION="{folder}"')
+    print(f"pvm: using python version {folder}")
 
 
 def _remove_existing_versions_from_path(paths: str):
