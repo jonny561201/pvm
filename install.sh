@@ -50,7 +50,7 @@ function download_extract_assets() {
 }
 
 function validate_extraction() {
-  if [ ! -d "$DIR/pvm-main/svc" ] || [ ! -d "$DIR/pvm-main/assets"]; then
+  if [ ! -d "$DIR/pvm-main/svc" ] || [ ! -d "$DIR/pvm-main/assets" ]; then
     echo "Error: Failed to unzip the installation zip from github!"
     echo "Contents of $DIR:"
     ls -R "$DIR"
