@@ -3,9 +3,8 @@ import shutil
 import tarfile
 from pathlib import Path
 
-import requests
-
 from svc.constants.file_constants import FileMode
+from svc.utilities.requests import requests
 
 
 def download_python_release(url: str, pvm_dir: Path, file_name: str):
