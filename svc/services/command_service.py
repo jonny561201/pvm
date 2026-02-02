@@ -36,7 +36,7 @@ def set_default_version(version: str):
 
 def use_python_version(version: str):
     folder = find_python_version(version)
-    executable = folder / "bin" / "python"
+    executable = File.VERSION_DIR / folder / "bin" / "python"
     paths = os.environ.get('PATH')
     update_paths = _remove_existing_versions_from_path(paths)
     print(f"export PATH={executable.absolute()}:{update_paths}")
