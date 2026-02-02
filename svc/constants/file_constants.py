@@ -20,7 +20,7 @@ class OS:
     APPLE = 'apple-darwin'
     WINDOWS = 'windows'
     LINUX = 'linux'
-    _mapping = {'linux': LINUX, 'windows': WINDOWS, 'darwin': APPLE}
+    _mapping = {'linux': LINUX, 'windows': WINDOWS, 'darwin': APPLE, 'win32': WINDOWS}
 
     @staticmethod
     def get_os_name():
