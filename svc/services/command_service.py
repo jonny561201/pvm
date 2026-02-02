@@ -11,10 +11,7 @@ from svc.utilities.prebuilt_release_utils import get_python_release_tag, get_pyt
 
 
 def install_latest_release(version: str):
-    ensure_version_not_installed(version)
-    tag = get_python_release_tag()
-    releases = get_python_releases(tag)
-    release = find_python_release(releases, version, OS.detect(), Architecture.detect())
+    release = _find_matching_release(version)
     file_name = f"{version}.tgz"
     folder_name = create_version_directory(release)
 
@@ -57,3 +54,11 @@ def _remove_existing_versions_from_path(paths: str):
     re.sub(r":{2,}", ":", paths)
 
     return paths
+
+
+def _find_matching_release(version: str):
+    ensure_version_not_installed(version)
+    tag = get_python_release_tag()
+    releases = get_python_releases(tag)
+    release = find_python_release(releases, version, OS.detect(), Architecture.detect())
+    return release
