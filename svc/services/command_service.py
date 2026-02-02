@@ -8,6 +8,7 @@ from svc.utilities.install_utils import download_python_release, extract_zip, de
 from svc.utilities.prebuilt_release_utils import get_python_release_tag, get_python_releases, find_python_release
 
 
+# TODO: stop hard coding OS and Architecture
 def install_latest_release(version: str):
     tag = get_python_release_tag()
     releases = get_python_releases(tag)
