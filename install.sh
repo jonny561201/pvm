@@ -6,13 +6,15 @@ ZSHRC="$HOME/.zshrc"
 BASHRC="$HOME/.bashrc"
 PVM_PATH_LINE='export PATH="$HOME/.pvm/bin:$PATH"'
 PVM_SOURCE_LINE='source "$HOME/.pvm/sh/pvm.sh"'
-GITHUB_URL="https://raw.githubusercontent.com/jonny561201/pvm/main"
+#GITHUB_URL="https://raw.githubusercontent.com/jonny561201/pvm/main"
 
 
 function create_pvm_directory() {
   if [ ! -d "$DIR" ]; then
       echo "Creating directory: $DIR"
       mkdir -p "$DIR/versions"
+      mkdir -p "$DIR/bin"
+      mkdir -p "$DIR/sh"
   else
       echo "Directory already exists: $DIR"
   fi
