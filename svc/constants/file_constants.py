@@ -1,3 +1,4 @@
+import platform
 import sys
 from pathlib import Path
 
@@ -23,11 +24,17 @@ class OS:
     _mapping = {'linux': LINUX, 'windows': WINDOWS, 'darwin': APPLE, 'win32': WINDOWS, 'msys': WINDOWS, 'cygwin': WINDOWS}
 
     @staticmethod
-    def get_os_name():
-        system = sys.platform
-        return OS._mapping.get(system.lower(), system.lower())
+    def get_os():
+        system = sys.platform.lower()
+        return OS._mapping.get(system, system)
 
 
 class Architecture:
     ARM = 'aarch64'
     INTEL = 'x86_64'
+    _mapping = {'arm64': ARM, 'aarch64': ARM, 'armv7l': ARM, 'armv6l': ARM, 'x86_64': INTEL, 'AMD64': INTEL, 'i386': INTEL, 'i686': INTEL}
+
+    @staticmethod
+    def get_arch():
+        machine = platform.machine().lower()
+        return Architecture._mapping.get(machine, machine)
