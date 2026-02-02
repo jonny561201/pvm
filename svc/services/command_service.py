@@ -27,6 +27,8 @@ def get_python_versions():
     versions = sorted([directory.name for directory in directories])
     for version in versions:
         print(version)
+    if len(versions) == 0:
+        print("No Python versions installed.")
 
 
 def set_default_version(version: str):
