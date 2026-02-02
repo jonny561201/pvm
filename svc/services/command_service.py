@@ -5,13 +5,13 @@ import sys
 
 from svc.constants.file_constants import File, Architecture, OS
 from svc.utilities.folder_utils import get_python_version_folders, set_global_python, create_version_directory, \
-    find_python_version
+    find_python_version, ensure_version_not_installed
 from svc.utilities.install_utils import download_python_release, extract_zip, delete_tar_file
 from svc.utilities.prebuilt_release_utils import get_python_release_tag, get_python_releases, find_python_release
 
 
 def install_latest_release(version: str):
-    _ensure_not_installed(version)
+    ensure_version_not_installed(version)
     tag = get_python_release_tag()
     releases = get_python_releases(tag)
     release = find_python_release(releases, version, OS.detect(), Architecture.detect())
@@ -57,11 +57,3 @@ def _remove_existing_versions_from_path(paths: str):
     re.sub(r":{2,}", ":", paths)
 
     return paths
-
-
-def _ensure_not_installed(version: str):
-    directories = get_python_version_folders()
-    for directory in directories:
-        if version in directory.name:
-            print(f"python {version} is already installed")
-            exit()

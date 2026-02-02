@@ -58,6 +58,13 @@ def set_global_python(version: str) -> str:
 
     return folder.name
 
+def ensure_version_not_installed(version: str):
+    directories = get_python_version_folders()
+    folder = next((folder for folder in directories if version in folder.name), None)
+    if folder:
+        print(f"python {version} is already installed")
+        exit()
+
 
 def _get_full_version(url: str):
     pattern = r"cpython-(\d+)\.(\d+)\.(\d+)(?=(?:\+|%2B)\d+)"
