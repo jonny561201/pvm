@@ -1,6 +1,6 @@
 from typing import List
 
-import requests
+from svc.utilities.requests import requests
 
 
 def get_python_release_tag():
