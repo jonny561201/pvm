@@ -63,4 +63,5 @@ def _ensure_not_installed(version: str):
     directories = get_python_version_folders()
     for directory in directories:
         if version in directory.name:
-            raise Exception(f"python {version} is already installed")
+            print(f"python {version} is already installed")
+            exit()
