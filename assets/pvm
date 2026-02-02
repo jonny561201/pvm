@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-exec python3 -m pvm.cli "$@"
+exec python3 "$HOME/.pvm/bin/app.py" "$@"
+
+#launcher script

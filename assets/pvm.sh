@@ -5,3 +5,5 @@ pvm() {
     command pvm "$@"
   fi
 }
+
+#just a pvm wrapper to exec print commands
