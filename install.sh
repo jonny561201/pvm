@@ -47,7 +47,17 @@ function download_extract_assets() {
   curl -L "https://github.com/jonny561201/pvm/archive/refs/heads/main.zip" -o "$TMP_ZIP"
   unzip -q "$TMP_ZIP" "pvm-main/*" -d "$DIR"
   rm "$TMP_ZIP"
+}
 
+function validate_extraction() {
+  if [ ! -d "$DIR/pvm-main" ]; then
+    echo "Error: Failed to unzip the installation zip from github!"
+    exit 1
+  fi
+}
+
+
+function copy_pvm_assets() {
   cp -r "$DIR/pvm-main/svc" "$DIR/bin/"
   cp "$DIR/pvm-main/app.py" "$DIR/bin/"
   cp "$DIR/pvm-main/assets/pvm" "$DIR/bin/"
@@ -68,5 +78,7 @@ function success_message() {
 
 create_pvm_directory
 download_extract_assets
+validate_extraction
+copy_pvm_assets
 update_rc_file
 success_message
