@@ -1,3 +1,4 @@
+import sys
 from typing import List
 
 from svc.utilities.requests import requests
@@ -10,11 +11,12 @@ def get_python_release_tag():
     response.raise_for_status()
 
     data = response.json()
-    return data.get("tag")
+    tag = data.get("tag")
+    if tag is None:
+        sys.exit("Latest python release tag not found")
+    return tag
 
 def get_python_releases(tag: str):
-    if tag is None:
-        raise Exception("Unable to list of latest python releases")
     url = f'https://api.github.com/repos/astral-sh/python-build-standalone/releases/tags/{tag}'
     response = requests.get(url)
     response.raise_for_status()
@@ -26,7 +28,7 @@ def get_python_releases(tag: str):
 def find_python_release(releases: List[dict], version: str, os: str, arch: str):
     match = next((asset.get("browser_download_url") for asset in releases if __asset_match(version, os, arch, asset)), None)
     if not match:
-        raise Exception(f"Unable to find python release for version {version}")
+        sys.exit(f"Unable to find python release for version {version}")
     return match
 
 
