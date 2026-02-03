@@ -60,4 +60,4 @@ def _find_matching_release(version: str):
     ensure_version_not_installed(version)
     tag = get_python_release_tag()
     releases = get_python_releases(tag)
-    return find_python_release(releases, version, OS.WINDOWS, Architecture.INTEL)
+    return find_python_release(releases, version, OS.detect(), Architecture.detect())

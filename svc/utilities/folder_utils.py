@@ -77,8 +77,9 @@ def _get_full_version(url: str):
     return f"python-{major}.{minor}.{patch}"
 
 
+# TODO: fix for windows excludes bin directory
 def _get_python_executable(folder: str) -> Path:
     python = File.VERSION_DIR / folder / 'python' / 'bin' / 'python'
     if not python.is_file():
-        sys.exit(f"python {folder} is not installed")
+        sys.exit(f"{folder} is not installed")
     return python
