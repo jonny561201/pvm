@@ -79,14 +79,10 @@ __pvm_strip_path() {
 
   IFS=':' read -r -a parts <<< "$PATH"
   for part in "${parts[@]}"; do
-    case "$part" in
-      "$HOME/.pvm/versions/python-"*/bin)
-        # skip
-        ;;
-      *)
-        new_path="${new_path:+$new_path:}$part"
-        ;;
-    esac
+    if [[ "$part" == "$HOME/.pvm/versions/python-"*/bin ]]; then
+      continue
+    fi
+    new_path="${new_path:+$new_path:}$part"
   done
 
   PATH="$new_path"
