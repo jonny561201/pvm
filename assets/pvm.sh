@@ -41,8 +41,8 @@ __pvm_hook() {
 
   [[ "$version" == "$__PVM_LAST_VERSION" ]] && return 0
 
-  if [[ -d "$HOME/.pvm/versions/$version" ]]; then
-    ln -sfn "$HOME/.pvm/versions/$version" "$HOME/.pvm/current"
+  if [[ -d "$HOME/.pvm/versions/python-$version" ]]; then
+    ln -sfn "$HOME/.pvm/versions/python-$version" "$HOME/.pvm/current"
     __PVM_LAST_VERSION="$version"
   fi
 }
