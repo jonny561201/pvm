@@ -1,9 +1,9 @@
+import os
 import re
 import sys
 from pathlib import Path
-import os
 
-from svc.constants.file_constants import FileMode, File, OS
+from svc.constants.file_constants import FileMode, File
 
 
 def create_pvm_directory():
@@ -41,24 +41,6 @@ def find_python_version(version: str):
             return item.name
     sys.exit(f"python {version} is not installed")
 
-
-def set_global_python(version: str) -> str:
-    folders = get_python_version_folders()
-    folder = next((folder for folder in folders if version in folder.name) , None)
-    if not folder:
-        sys.exit(f"python {version} is not installed")
-
-    target = _get_python_executable(folder.name)
-    tmp_link = File.CURRENT_PYTHON.with_suffix(".tmp")
-
-    if tmp_link.exists() or tmp_link.is_symlink():
-        tmp_link.unlink()
-
-    os.symlink(target, tmp_link)
-    os.replace(tmp_link, File.CURRENT_PYTHON)
-
-    return folder.name
-
 def ensure_version_not_installed(version: str):
     directories = get_python_version_folders()
     folder = next((folder for folder in directories if folder.name.startswith(f'python-{version}')), None)
@@ -76,10 +58,3 @@ def _get_full_version(url: str):
     major, minor, patch = m.groups()
     return f"python-{major}.{minor}.{patch}"
 
-
-def _get_python_executable(folder: str) -> Path:
-    python = File.VERSION_DIR / folder / 'python' if OS.detect() == OS.WINDOWS else File.VERSION_DIR / folder / 'python' / 'bin' / 'python'
-
-    if not python.is_file() or python is None:
-        sys.exit(f"{folder} is not installed")
-    return python
