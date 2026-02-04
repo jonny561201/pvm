@@ -42,6 +42,23 @@ __pvm_find_version_file() {
 }
 
 
+__pvm_strip_path() {
+  local new_path=""
+  local part
+
+  # Split PATH safely in both bash and zsh
+  local IFS=':'
+  for part in $PATH; do
+    if [[ "$part" == "$HOME/.pvm/versions/python-"*/python/bin ]]; then
+      continue
+    fi
+    new_path="${new_path:+$new_path:}$part"
+  done
+
+  PATH="$new_path"
+}
+
+
 __pvm_hook() {
   [[ "$PWD" == "$__PVM_LAST_PWD" ]] && return 0
   __PVM_LAST_PWD="$PWD"
@@ -107,23 +124,6 @@ if [[ -n "$ZSH_VERSION" ]]; then
   add-zsh-hook chpwd __pvm_hook
   __pvm_hook
 fi
-
-
-__pvm_strip_path() {
-  local new_path=""
-  local part
-
-  # Split PATH safely in both bash and zsh
-  local IFS=':'
-  for part in $PATH; do
-    if [[ "$part" == "$HOME/.pvm/versions/python-"*/python/bin ]]; then
-      continue
-    fi
-    new_path="${new_path:+$new_path:}$part"
-  done
-
-  PATH="$new_path"
-}
 
 
 __pvm_resolve_version() {
