@@ -15,6 +15,19 @@ __PVM_LAST_PWD=""
 __PVM_LAST_VERSION=""
 
 
+__pvm_restore_path() {
+  __pvm_strip_path
+  export PATH
+}
+
+
+__pvm_read_global_version() {
+  local file="$HOME/.pvm/bin"
+  [[ -f "$file" ]] || return 1
+  __pvm_read_version "$file"
+}
+
+
 __pvm_find_version_file() {
   local dir="$PWD"
   while [[ "$dir" != "/" ]]; do
@@ -150,12 +163,6 @@ __pvm_prepend_version() {
 }
 
 
-__pvm_restore_path() {
-  __pvm_strip_path
-  export PATH
-}
-
-
 __pvm_version_matches() {
   local required="$1"
   local active="$2"
@@ -170,13 +177,6 @@ __pvm_version_matches() {
     [[ "${req[i]}" != "${act[i]}" ]] && return 1
   done
   return 0
-}
-
-
-__pvm_read_global_version() {
-  local file="$HOME/.pvm/bin"
-  [[ -f "$file" ]] || return 1
-  __pvm_read_version "$file"
 }
 
 
