@@ -61,7 +61,7 @@ def set_global_python(version: str) -> str:
 
 def ensure_version_not_installed(version: str):
     directories = get_python_version_folders()
-    folder = next((folder for folder in directories if version in folder.name), None)
+    folder = next((folder for folder in directories if folder.name.startswith(f'python-{version}')), None)
     if folder:
         sys.exit(f"python {version} is not installed")
 

@@ -3,7 +3,7 @@ from pathlib import Path
 import pytest
 from mock import patch, Mock
 
-from svc.utilities.folder_utils import find_python_version, get_python_version_folders
+from svc.utilities.folder_utils import find_python_version, get_python_version_folders, ensure_version_not_installed
 
 
 @patch('svc.utilities.folder_utils.File.VERSION_DIR')
@@ -48,6 +48,28 @@ def test_get_python_version_folders__should_only_return_directories(dir_mock):
     actual = get_python_version_folders()
 
     assert actual == [path_two]
+
+
+@patch('svc.utilities.folder_utils.File.VERSION_DIR')
+@patch('svc.utilities.folder_utils.sys')
+def test_ensure_version_not_installed__should_not_error_when_major_minor_contained_in_minor_revision(sys_mock, dir_mock):
+    version = '3.11'
+    path = __create_mock_path(f'python-3.13.11')
+    path.exists.return_value = True
+    dir_mock.iterdir.return_value = [path]
+
+    ensure_version_not_installed(version)
+
+    sys_mock.exit.assert_not_called()
+
+
+@patch('svc.utilities.folder_utils.File.VERSION_DIR')
+def test_ensure_version_not_installed__should_exit_if_version_exists(dir_mock):
+    version = '3.11'
+    path = __create_mock_path(f'python-{version}.11')
+    path.exists.return_value = True
+
+    ensure_version_not_installed(version)
 
 
 def __create_mock_path(name: str, is_dir: bool = True):
