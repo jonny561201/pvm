@@ -74,7 +74,8 @@ fi
 
 if [[ -n "$ZSH_VERSION" ]]; then
   autoload -Uz add-zsh-hook
-  add-zsh-hook precmd __pvm_hook
+  add-zsh-hook chpwd __pvm_hook
+  __pvm_hook
 fi
 
 
