@@ -8,6 +8,7 @@ from svc.utilities.folder_utils import get_python_version_folders, set_global_py
     find_python_version, ensure_version_not_installed
 from svc.utilities.install_utils import download_python_release, extract_zip, delete_tar_file
 from svc.utilities.prebuilt_release_utils import get_python_release_tag, get_python_releases, find_python_release
+from svc.utilities.file_utils import set_global_version_file
 
 
 def install_latest_release(version: str):
@@ -32,6 +33,8 @@ def get_python_versions():
 
 def set_default_version(version: str):
     version_folder = set_global_python(version)
+    stripped_version = version_folder.replace('python-', '')
+    set_global_version_file(stripped_version)
     print(f"pvm: global python set to {version_folder}")
 
 
