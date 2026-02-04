@@ -83,8 +83,9 @@ __pvm_strip_path() {
   local new_path=""
   local part
 
-  IFS=':' read -r -a parts <<< "$PATH"
-  for part in "${parts[@]}"; do
+  # Split PATH safely in both bash and zsh
+  local IFS=':'
+  for part in $PATH; do
     if [[ "$part" == "$HOME/.pvm/versions/python-"*/bin ]]; then
       continue
     fi
@@ -142,11 +143,13 @@ __pvm_version_matches() {
   local required="$1"
   local active="$2"
 
-  IFS='.' read -r -a req <<< "$required"
-  IFS='.' read -r -a act <<< "$active"
+  local IFS='.'
+  local req act
+  req=($required)
+  act=($active)
 
   local i
-  for ((i=0; i<${#req[@]}; i++)); do
+  for ((i=1; i<=${#req[@]}; i++)); do
     [[ "${req[i]}" != "${act[i]}" ]] && return 1
   done
   return 0
