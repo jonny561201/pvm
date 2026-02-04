@@ -60,6 +60,7 @@ __pvm_strip_path() {
 
 
 __pvm_hook() {
+  echo "pvm hook fired: $PWD" >&2
   [[ "$PWD" == "$__PVM_LAST_PWD" ]] && return 0
   __PVM_LAST_PWD="$PWD"
 
