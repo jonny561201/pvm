@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 import os
 
-from svc.constants.file_constants import FileMode, File
+from svc.constants.file_constants import FileMode, File, OS
 
 
 def create_pvm_directory():
@@ -77,9 +77,9 @@ def _get_full_version(url: str):
     return f"python-{major}.{minor}.{patch}"
 
 
-# TODO: fix for windows excludes bin directory
 def _get_python_executable(folder: str) -> Path:
-    python = File.VERSION_DIR / folder / 'python' / 'bin' / 'python'
-    if not python.is_file():
+    python = File.VERSION_DIR / folder / 'python' if OS.detect() == OS.WINDOWS else File.VERSION_DIR / folder / 'python' / 'bin' / 'python'
+
+    if not python.is_file() or python is None:
         sys.exit(f"{folder} is not installed")
     return python
