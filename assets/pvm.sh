@@ -72,6 +72,11 @@ if [[ -n "$BASH_VERSION" ]]; then
   PROMPT_COMMAND="__pvm_hook${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
 fi
 
+if [[ -n "$ZSH_VERSION" ]]; then
+  autoload -Uz add-zsh-hook
+  add-zsh-hook precmd __pvm_hook
+fi
+
 
 __pvm_strip_path() {
   local new_path=""
