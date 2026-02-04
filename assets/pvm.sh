@@ -86,7 +86,7 @@ __pvm_strip_path() {
   # Split PATH safely in both bash and zsh
   local IFS=':'
   for part in $PATH; do
-    if [[ "$part" == "$HOME/.pvm/versions/python-"*/bin ]]; then
+    if [[ "$part" == "$HOME/.pvm/versions/python-"*/python/bin ]]; then
       continue
     fi
     new_path="${new_path:+$new_path:}$part"
@@ -128,7 +128,7 @@ __pvm_prepend_version() {
   local version_dir="$1"
 
   __pvm_strip_path
-  PATH="$version_dir/bin:$PATH"
+  PATH="$version_dir/python/bin:$PATH"
   export PATH
 }
 
