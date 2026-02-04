@@ -1,20 +1,19 @@
 from pathlib import Path
 
-import pytest
 from mock import patch, Mock
 
 from svc.utilities.folder_utils import find_python_version, get_python_version_folders, ensure_version_not_installed
 
 
 @patch('svc.utilities.folder_utils.File.VERSION_DIR')
-def test_find_python_version__no_directory(dir_mock):
+@patch('svc.utilities.folder_utils.sys')
+def test_find_python_version__should_exit_early_when_directory_not_exist(sys_mock, dir_mock):
     version = '3.1.12'
     dir_mock.exists.return_value = False
 
-    with pytest.raises(ValueError) as er:
-        find_python_version(version)
+    find_python_version(version)
 
-    assert str(er.value) == f'python {version} is not installed'
+    sys_mock.exit.assert_called_with(f'python {version} is not installed')
 
 
 @patch('svc.utilities.folder_utils.File.VERSION_DIR')
