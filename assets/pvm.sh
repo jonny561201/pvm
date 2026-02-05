@@ -93,7 +93,6 @@ __pvm_hook() {
   fi
 
   # ---- Global fallback ----
-  echo "checking global version"
   if global_version="$(__pvm_read_global_version)"; then
     resolved="$(__pvm_resolve_version "$global_version")"
 
@@ -135,15 +134,11 @@ __pvm_resolve_version() {
 
   # Ensure glob behaves the same in zsh and bash
   setopt localoptions nullglob 2>/dev/null
-  echo "required: $required"
 
-  echo "looping over version directories"
   for d in "$base"/python-*; do
-    echo "directory: $d"
     [[ -d "$d" ]] || continue
 
     local v="${d##*/python-}"
-    echo "version: $v"
 
     if __pvm_version_matches "$required" "$v"; then
       if [[ -z "$best" ]]; then
@@ -176,7 +171,6 @@ __pvm_prepend_version() {
 
 
 __pvm_version_matches() {
-  echo "!!!!called Version matches function!!!!"
   local required="$1"
   local active="$2"
 
