@@ -184,17 +184,11 @@ __pvm_version_matches() {
 
 
 python() {
-  # Check if python exists in PATH
-  if ! command -v python >/dev/null 2>&1; then
-    echo "pvm: error: no python command found in PATH" >&2
-    return 127
-  fi
-
-  # Run the actual Python command
+  # Run the actual Python command first
   command python "$@"
   local exit_code=$?
 
-  # Print warning if a version is required but not installed
+  # Print warning only if there’s a .python-version but no installed version
   if [[ -n "$__PVM_LAST_VERSION" && -z "$__PVM_ACTIVE_VERSION" ]]; then
     echo -e "${RED}pvm: warning: python version '$__PVM_LAST_VERSION' is required but not installed${WHITE}" >&2
   fi
