@@ -22,7 +22,7 @@ __pvm_restore_path() {
 
 
 __pvm_read_global_version() {
-  local file="$HOME/.pvm/bin"
+  local file="$HOME/.pvm/bin/global-version"
   [[ -f "$file" ]] || return 1
   __pvm_read_version "$file"
 }
@@ -60,7 +60,6 @@ __pvm_strip_path() {
 
 
 __pvm_hook() {
-  echo "pvm hook fired: $PWD" >&2
   [[ "$PWD" == "$__PVM_LAST_PWD" ]] && return 0
   __PVM_LAST_PWD="$PWD"
 
@@ -94,6 +93,7 @@ __pvm_hook() {
   fi
 
   # ---- Global fallback ----
+  echo "checking global version"
   if global_version="$(__pvm_read_global_version)"; then
     resolved="$(__pvm_resolve_version "$global_version")"
 
@@ -116,6 +116,7 @@ __pvm_hook() {
   __PVM_ACTIVE_VERSION=""
 }
 
+
 if [[ -n "$BASH_VERSION" ]]; then
   PROMPT_COMMAND="__pvm_hook${PROMPT_COMMAND:+;$PROMPT_COMMAND}"
 fi
@@ -132,13 +133,23 @@ __pvm_resolve_version() {
   local base="$HOME/.pvm/versions"
   local best=""
 
+  # Ensure glob behaves the same in zsh and bash
+  setopt localoptions nullglob 2>/dev/null
+  echo "required: $required"
+
+  echo "looping over version directories"
   for d in "$base"/python-*; do
+    echo "directory: $d"
     [[ -d "$d" ]] || continue
+
     local v="${d##*/python-}"
+    echo "version: $v"
 
     if __pvm_version_matches "$required" "$v"; then
-      if [[ -z "$best" || "$v" > "$best" ]]; then
+      if [[ -z "$best" ]]; then
         best="$v"
+      else
+        best="$(printf '%s\n%s\n' "$best" "$v" | sort -V | tail -n1)"
       fi
     fi
   done
@@ -165,19 +176,11 @@ __pvm_prepend_version() {
 
 
 __pvm_version_matches() {
+  echo "!!!!called Version matches function!!!!"
   local required="$1"
   local active="$2"
 
-  local IFS='.'
-  local req act
-  req=($required)
-  act=($active)
-
-  local i
-  for ((i=1; i<=${#req[@]}; i++)); do
-    [[ "${req[i]}" != "${act[i]}" ]] && return 1
-  done
-  return 0
+  [[ "$active" == "$required" || "$active" == "$required".* ]]
 }
 
 
