@@ -181,30 +181,35 @@ __pvm_version_matches() {
 
 
 python() {
-  # If no .python-version file, just run python
-  [[ -z "$__PVM_LAST_VERSION_FILE" ]] && command python "$@" && return
+  # If no .python-version file, run python if available
+  if [[ -z "$__PVM_LAST_VERSION_FILE" ]]; then
+    if command -v python >/dev/null 2>&1; then
+      command python "$@"
+    else
+      echo "pvm: warning: no Python installed and no project version set" >&2
+      return 1
+    fi
+    return
+  fi
 
   # Warn if no compatible version installed
   if [[ -z "$__PVM_ACTIVE_VERSION" ]]; then
     echo "pvm: warning: python version '$__PVM_LAST_VERSION' is required but not installed" >&2
-    command python "$@"
-    return
+    return 1
   fi
 
-  # Only check the version if running 'python' with no args or with --version
-  if [[ "$1" == "--version" ]] || [[ -z "$1" ]]; then
-    # Capture actual python version
-    local actual
-    actual="$("$HOME/.pvm/versions/python-$__PVM_ACTIVE_VERSION/python/bin/python" -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')"
+  # Use resolved python executable
+  local python_bin="$HOME/.pvm/versions/python-$__PVM_ACTIVE_VERSION/python/bin/python"
 
-    if ! __pvm_version_matches "$__PVM_LAST_VERSION" "$actual"; then
-      echo "pvm: warning: project requires Python $__PVM_LAST_VERSION, but $actual is active" >&2
-      echo "pvm: hint: run 'pvm use $__PVM_LAST_VERSION'" >&2
-    fi
+  # Optionally warn if version mismatch
+  local actual
+  actual="$("$python_bin" -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')"
+  if ! __pvm_version_matches "$__PVM_LAST_VERSION" "$actual"; then
+    echo "pvm: warning: project requires Python $__PVM_LAST_VERSION, but $actual is active" >&2
+    echo "pvm: hint: run 'pvm use $__PVM_LAST_VERSION'" >&2
   fi
 
-  # Run python with original args
-  command python "$@"
+  "$python_bin" "$@"
 }
 
 #just a pvm wrapper to exec print commands
