@@ -30,17 +30,17 @@ __pvm_read_global_version() {
 
 __pvm_find_version_file() {
   local dir="$PWD"
-  local found=""
 
   while [[ "$dir" != "/" ]]; do
     if [[ -f "$dir/.python-version" ]]; then
-      found="$dir/.python-version"
+      echo "$dir/.python-version"
+      return 0
     fi
     dir="${dir%/*}"
     [[ -z "$dir" ]] && dir="/"
   done
 
-  [[ -n "$found" ]] && echo "$found"
+  return 1
 }
 
 
