@@ -1,3 +1,6 @@
+WHITE='\033[0m'
+RED='\033[0;31m'
+
 # Capture original PATH once per shell
 if [[ -z "${__PVM_ORIGINAL_PATH+x}" ]]; then
   __PVM_ORIGINAL_PATH="$PATH"
@@ -187,7 +190,7 @@ python() {
 
   # Print warning only if there’s a .python-version but no installed version
   if [[ -n "$__PVM_LAST_VERSION" && -z "$__PVM_ACTIVE_VERSION" ]]; then
-    echo "pvm: warning: python version '$__PVM_LAST_VERSION' is required but not installed" >&2
+    echo -e "${RED}pvm: warning: python version '$__PVM_LAST_VERSION' is required but not installed${WHITE}" >&2
   fi
 
   return $exit_code
