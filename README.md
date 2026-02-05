@@ -22,12 +22,7 @@
   - I should probably build this WITHOUT Python, but good for fast prototyping
   - might look into building a .NET console app if everything looks good
 
-# TODOS # 
-~~- An install/setup script file will need to be built to set up pvm on first use~~
-  ~~- it should create the pvm folder structure in the user's home directory~~
-  ~~- it will need to add the global python version to users PATH (globally)~~
-~~- This will add complexity but is necessary for full version management~~
-~~- Need to start grabbing users OS/CPU Architecture to download correct python builds~~
+# TODOS #
 - Right now it only grabs latest releases....need to support historical builds too
 
 # Install #
