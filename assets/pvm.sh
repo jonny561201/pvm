@@ -181,35 +181,13 @@ __pvm_version_matches() {
 
 
 python() {
-  # If no .python-version file, run python if available
-  if [[ -z "$__PVM_LAST_VERSION_FILE" ]]; then
-    if command -v python >/dev/null 2>&1; then
-      command python "$@"
-    else
-      echo "pvm: warning: no Python installed and no project version set" >&2
-      return 1
-    fi
-    return
-  fi
-
-  # Warn if no compatible version installed
-  if [[ -z "$__PVM_ACTIVE_VERSION" ]]; then
+  # Only warn if a .python-version exists for this directory
+  if [[ -n "$__PVM_LAST_VERSION" && -z "$__PVM_ACTIVE_VERSION" ]]; then
     echo "pvm: warning: python version '$__PVM_LAST_VERSION' is required but not installed" >&2
-    return 1
   fi
 
-  # Use resolved python executable
-  local python_bin="$HOME/.pvm/versions/python-$__PVM_ACTIVE_VERSION/python/bin/python"
-
-  # Optionally warn if version mismatch
-  local actual
-  actual="$("$python_bin" -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')"
-  if ! __pvm_version_matches "$__PVM_LAST_VERSION" "$actual"; then
-    echo "pvm: warning: project requires Python $__PVM_LAST_VERSION, but $actual is active" >&2
-    echo "pvm: hint: run 'pvm use $__PVM_LAST_VERSION'" >&2
-  fi
-
-  "$python_bin" "$@"
+  # Call the actual python in PATH (could be system Python or already set via __pvm_hook)
+  command python "$@"
 }
 
 #just a pvm wrapper to exec print commands
