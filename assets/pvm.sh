@@ -181,13 +181,16 @@ __pvm_version_matches() {
 
 
 python() {
-  # Only warn if a .python-version exists for this directory
+  # Run the actual Python command first
+  command python "$@"
+  local exit_code=$?
+
+  # Print warning only if there’s a .python-version but no installed version
   if [[ -n "$__PVM_LAST_VERSION" && -z "$__PVM_ACTIVE_VERSION" ]]; then
     echo "pvm: warning: python version '$__PVM_LAST_VERSION' is required but not installed" >&2
   fi
 
-  # Call the actual python in PATH (could be system Python or already set via __pvm_hook)
-  command python "$@"
+  return $exit_code
 }
 
 #just a pvm wrapper to exec print commands
