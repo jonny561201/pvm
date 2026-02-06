@@ -73,6 +73,49 @@ __pvm_read_version() {
 }
 
 
+__pvm_resolve_version() {
+  local required="$1"
+  local base="$HOME/.pvm/versions"
+  local best=""
+
+  # Ensure glob behaves the same in zsh and bash
+  setopt localoptions nullglob 2>/dev/null
+
+  for d in "$base"/python-*; do
+    [[ -d "$d" ]] || continue
+
+    local v="${d##*/python-}"
+
+    if __pvm_version_matches "$required" "$v"; then
+      if [[ -z "$best" ]]; then
+        best="$v"
+      else
+        best="$(printf '%s\n%s\n' "$best" "$v" | sort -V | tail -n1)"
+      fi
+    fi
+  done
+
+  [[ -n "$best" ]] && echo "$best"
+}
+
+
+__pvm_prepend_version() {
+  local version_dir="$1"
+
+  __pvm_strip_path
+  PATH="$version_dir/python/bin:$PATH"
+  export PATH
+}
+
+
+__pvm_version_matches() {
+  local required="$1"
+  local active="$2"
+
+  [[ "$active" == "$required" || "$active" == "$required".* ]]
+}
+
+
 __pvm_hook() {
   local pwd="$PWD"
 
@@ -145,48 +188,5 @@ if [[ -n "$ZSH_VERSION" ]]; then
   add-zsh-hook chpwd __pvm_hook
   __pvm_hook
 fi
-
-
-__pvm_resolve_version() {
-  local required="$1"
-  local base="$HOME/.pvm/versions"
-  local best=""
-
-  # Ensure glob behaves the same in zsh and bash
-  setopt localoptions nullglob 2>/dev/null
-
-  for d in "$base"/python-*; do
-    [[ -d "$d" ]] || continue
-
-    local v="${d##*/python-}"
-
-    if __pvm_version_matches "$required" "$v"; then
-      if [[ -z "$best" ]]; then
-        best="$v"
-      else
-        best="$(printf '%s\n%s\n' "$best" "$v" | sort -V | tail -n1)"
-      fi
-    fi
-  done
-
-  [[ -n "$best" ]] && echo "$best"
-}
-
-
-__pvm_prepend_version() {
-  local version_dir="$1"
-
-  __pvm_strip_path
-  PATH="$version_dir/python/bin:$PATH"
-  export PATH
-}
-
-
-__pvm_version_matches() {
-  local required="$1"
-  local active="$2"
-
-  [[ "$active" == "$required" || "$active" == "$required".* ]]
-}
 
 #just a pvm wrapper to exec print commands
