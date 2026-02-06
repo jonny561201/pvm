@@ -64,6 +64,14 @@ __pvm_strip_path() {
 }
 
 
+__pvm_read_version() {
+  sed -e 's/#.*//' \
+      -e 's/^[[:space:]]*//' \
+      -e 's/[[:space:]]*$//' \
+      "$1"
+}
+
+
 __pvm_hook() {
   [[ "$PWD" == "$__PVM_LAST_PWD" ]] && return 0
   __PVM_LAST_PWD="$PWD"
@@ -155,14 +163,6 @@ __pvm_resolve_version() {
   done
 
   [[ -n "$best" ]] && echo "$best"
-}
-
-
-__pvm_read_version() {
-  sed -e 's/#.*//' \
-      -e 's/^[[:space:]]*//' \
-      -e 's/[[:space:]]*$//' \
-      "$1"
 }
 
 
