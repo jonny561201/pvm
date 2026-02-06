@@ -74,59 +74,57 @@ __pvm_read_version() {
 
 
 __pvm_hook() {
-  [[ "$PWD" == "$__PVM_LAST_PWD" ]] && return 0
-  __PVM_LAST_PWD="$PWD"
+  local pwd="$PWD"
 
   local version_file version resolved global_version
 
   # ---- Project-local version ----
   if version_file="$(__pvm_find_version_file)"; then
     version="$(__pvm_read_version "$version_file")"
-    [[ -z "$version" ]] && return 0
 
-    [[ "$version" == "$__PVM_LAST_VERSION" ]] && return 0
+    if [[ "$version" != "$__PVM_LAST_VERSION" ]]; then
+      resolved="$(__pvm_resolve_version "$version")"
 
-    resolved="$(__pvm_resolve_version "$version")"
+      if [[ -n "$resolved" ]]; then
+        __pvm_prepend_version "$HOME/.pvm/versions/python-$resolved"
+        __PVM_ACTIVE_VERSION="$resolved"
+        __PVM_WARNED_VERSION=""
+      else
+        __pvm_restore_path
+        __PVM_ACTIVE_VERSION=""
 
-    if [[ "$resolved" == "$__PVM_ACTIVE_VERSION" ]]; then
+        if [[ "$__PVM_WARNED_VERSION" != "$version" ]]; then
+          echo -e "${RED}pvm: warning: python version '$version' is required but not installed${WHITE}" >&2
+          __PVM_WARNED_VERSION="$version"
+        fi
+      fi
+
       __PVM_LAST_VERSION="$version"
-      return 0
     fi
 
-  if [[ -n "$resolved" ]]; then
-    __pvm_prepend_version "$HOME/.pvm/versions/python-$resolved"
-    __PVM_LAST_VERSION="$version"
-    __PVM_ACTIVE_VERSION="$resolved"
-    __PVM_WARNED_VERSION=""
-  else
-    __pvm_restore_path
-    __PVM_LAST_VERSION="$version"
-    __PVM_ACTIVE_VERSION=""
-
-    if [[ "$__PVM_WARNED_VERSION" != "$version" ]]; then
-      echo -e "${RED}pvm: warning: python version '$version' is required but not installed${WHITE}" >&2
-      __PVM_WARNED_VERSION="$version"
-    fi
-  fi
-
+    __PVM_LAST_PWD="$pwd"
     return 0
   fi
 
   # ---- Global fallback ----
   if global_version="$(__pvm_read_global_version)"; then
-    resolved="$(__pvm_resolve_version "$global_version")"
+    if [[ "global:$global_version" != "$__PVM_LAST_VERSION" ]]; then
+      resolved="$(__pvm_resolve_version "$global_version")"
 
-    if [[ "$resolved" == "$__PVM_ACTIVE_VERSION" ]]; then
+      if [[ -n "$resolved" ]]; then
+        __pvm_prepend_version "$HOME/.pvm/versions/python-$resolved"
+        __PVM_ACTIVE_VERSION="$resolved"
+      else
+        __pvm_restore_path
+        __PVM_ACTIVE_VERSION=""
+      fi
+
       __PVM_LAST_VERSION="global:$global_version"
-      return 0
+      __PVM_WARNED_VERSION=""
     fi
 
-    if [[ -n "$resolved" ]]; then
-      __pvm_prepend_version "$HOME/.pvm/versions/python-$resolved"
-      __PVM_LAST_VERSION="global:$global_version"
-      __PVM_ACTIVE_VERSION="$resolved"
-      return 0
-    fi
+    __PVM_LAST_PWD="$pwd"
+    return 0
   fi
 
   # ---- System fallback ----
@@ -134,6 +132,7 @@ __pvm_hook() {
   __PVM_LAST_VERSION=""
   __PVM_ACTIVE_VERSION=""
   __PVM_WARNED_VERSION=""
+  __PVM_LAST_PWD="$pwd"
 }
 
 
