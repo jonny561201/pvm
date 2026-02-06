@@ -106,13 +106,22 @@ __pvm_find_venv() {
 }
 
 __pvm_activate_venv() {
-  [[ "$VIRTUAL_ENV" == "$1" ]] && return
-  declare -F deactivate >/dev/null && deactivate
-  source "$1/bin/activate"
+  local venv="$1"
+
+  [[ "$VIRTUAL_ENV" == "$venv" ]] && return
+
+  if type deactivate >/dev/null 2>&1; then
+    deactivate
+  fi
+
+  # shellcheck disable=SC1090
+  source "$venv/bin/activate"
 }
 
 __pvm_deactivate_venv() {
-  declare -F deactivate >/dev/null && deactivate
+  if type deactivate >/dev/null 2>&1; then
+    deactivate
+  fi
 }
 
 __pvm_hook() {
