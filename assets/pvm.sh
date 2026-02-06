@@ -16,6 +16,7 @@ pvm() {
 
 __PVM_LAST_PWD=""
 __PVM_LAST_VERSION=""
+__PVM_WARNED_VERSION=""
 
 
 __pvm_restore_path() {
@@ -92,15 +93,21 @@ __pvm_hook() {
       return 0
     fi
 
-    if [[ -n "$resolved" ]]; then
-      __pvm_prepend_version "$HOME/.pvm/versions/python-$resolved"
-      __PVM_LAST_VERSION="$version"
-      __PVM_ACTIVE_VERSION="$resolved"
-    else
-      __pvm_restore_path
-      __PVM_LAST_VERSION="$version"
-      __PVM_ACTIVE_VERSION=""
+  if [[ -n "$resolved" ]]; then
+    __pvm_prepend_version "$HOME/.pvm/versions/python-$resolved"
+    __PVM_LAST_VERSION="$version"
+    __PVM_ACTIVE_VERSION="$resolved"
+    __PVM_WARNED_VERSION=""
+  else
+    __pvm_restore_path
+    __PVM_LAST_VERSION="$version"
+    __PVM_ACTIVE_VERSION=""
+
+    if [[ "$__PVM_WARNED_VERSION" != "$version" ]]; then
+      echo -e "${RED}pvm: warning: python version '$version' is required but not installed${WHITE}" >&2
+      __PVM_WARNED_VERSION="$version"
     fi
+  fi
 
     return 0
   fi
@@ -126,6 +133,7 @@ __pvm_hook() {
   __pvm_restore_path
   __PVM_LAST_VERSION=""
   __PVM_ACTIVE_VERSION=""
+  __PVM_WARNED_VERSION=""
 }
 
 
@@ -180,20 +188,6 @@ __pvm_version_matches() {
   local active="$2"
 
   [[ "$active" == "$required" || "$active" == "$required".* ]]
-}
-
-
-python() {
-  # Run the actual Python command first
-  command python "$@"
-  local exit_code=$?
-
-  # Print warning only if there’s a .python-version but no installed version
-  if [[ -n "$__PVM_LAST_VERSION" && -z "$__PVM_ACTIVE_VERSION" ]]; then
-    echo -e "${RED}pvm: warning: python version '$__PVM_LAST_VERSION' is required but not installed${WHITE}" >&2
-  fi
-
-  return $exit_code
 }
 
 #just a pvm wrapper to exec print commands
