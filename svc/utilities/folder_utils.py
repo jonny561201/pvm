@@ -33,8 +33,6 @@ def get_python_version_folders() -> list[Path]:
 
 def find_python_version(version: str):
     version_dir = File.VERSION_DIR
-    if not version_dir.exists():
-        sys.exit(f"python {version} is not installed")
 
     for item in version_dir.iterdir():
         if item.is_dir() and version in item.name:
