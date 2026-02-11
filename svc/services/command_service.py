@@ -27,7 +27,7 @@ def list_python_versions():
     versions = sorted([directory.name for directory in directories])
     global_version = get_global_version()
     for version in versions:
-        print(f"{'*' if global_version in version else ' '}  {version}")
+        print(f" {'*' if global_version in version else ' '} {version}")
     if len(versions) == 0:
         print("No Python versions installed.")
 
