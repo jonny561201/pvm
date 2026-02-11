@@ -2,6 +2,8 @@
 - Create a simple Python Version Manager
 - Allow users to easily switch between multiple versions of Python
 - Manage global and local Python versions for projects
+- Will activate `venv` environments when "cd" to a project directory
+- The `.python-version` file will be used to switch versions if a version is installed (venv honored first)
 
 # Problems #
 - The use of uv on Windows is limiting
