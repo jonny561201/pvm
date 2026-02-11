@@ -12,6 +12,15 @@ def set_global_version_file(version: str):
         f.write(version)
 
 
+def get_global_version() -> str:
+    version_file = File.CURRENT_DIR / "global-version"
+    if not version_file.is_file():
+        sys.exit("No global python version set. Please set a global version using 'pvm default <version>'")
+
+    with open(version_file, 'r') as f:
+        return f.read().strip()
+
+
 def set_global_python(version: str) -> str:
     folders = get_python_version_folders()
     folder = next((folder for folder in folders if version in folder.name) , None)
