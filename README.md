@@ -22,6 +22,7 @@
 - Installs in the user's home directory under `.pvm`
 - Each Python version is installed under the `.pvm/versions` directory in their own subdirectory
 - A symlink is created under the `.pvm/bin` directory for the active Python version, which is added to the user's PATH
+- Users `.bashrc` and `.zshrc` files are modified by the install script
 
 # POC # 
 - Considering this a POC for the time being
