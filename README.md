@@ -18,6 +18,11 @@
 - `pvm default <version>`: Set a global default Python version
 - `pvm list`: List all installed Python versions
 
+# Structure #
+- Installs in the user's home directory under `.pvm`
+- Each Python version is installed under the `.pvm/versions` directory in their own subdirectory
+- A symlink is created under the `.pvm/bin` directory for the active Python version, which is added to the user's PATH
+
 # POC # 
 - Considering this a POC for the time being
 - If I want this to truly manage all my python installs vs needing global ones 
