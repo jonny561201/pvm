@@ -6,16 +6,6 @@ from pathlib import Path
 from svc.constants.file_constants import FileMode, File
 
 
-def create_pvm_directory():
-    pvm_dir = Path.home() / ".pvm"
-    pvm_dir.mkdir(parents=True, exist_ok=True)
-    try:
-        os.chmod(pvm_dir, FileMode.READ_WRITE_EXEC)
-    except PermissionError:
-        pass
-    return pvm_dir
-
-
 def create_version_directory(release: str):
     version = _get_full_version(release)
     os.makedirs(File.VERSION_DIR / version, exist_ok=True)
@@ -32,12 +22,11 @@ def get_python_version_folders() -> list[Path]:
 
 
 def find_python_version(version: str):
-    version_dir = File.VERSION_DIR
-
-    for item in version_dir.iterdir():
+    for item in File.VERSION_DIR.iterdir():
         if item.is_dir() and version in item.name:
             return item.name
     sys.exit(f"python {version} is not installed")
+
 
 def ensure_version_not_installed(version: str):
     directories = get_python_version_folders()
