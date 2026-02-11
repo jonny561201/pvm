@@ -1,6 +1,6 @@
 import argparse
 
-from svc.services.command_service import install_latest_release, get_python_versions, set_default_version, \
+from svc.services.command_service import install_latest_release, list_python_versions, set_default_version, \
     use_python_version
 
 
@@ -10,7 +10,7 @@ def execute_commands(args: argparse.Namespace):
     elif args.command == 'install':
         install_latest_release(args.python_version)
     elif args.command == 'list':
-        get_python_versions()
+        list_python_versions()
     elif args.command == 'default':
         set_default_version(args.python_version)
 

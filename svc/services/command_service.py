@@ -22,7 +22,7 @@ def install_latest_release(version: str):
     delete_tar_file(directory, file_name)
 
 
-def get_python_versions():
+def list_python_versions():
     directories = get_python_version_folders()
     versions = sorted([directory.name for directory in directories])
     for version in versions:
