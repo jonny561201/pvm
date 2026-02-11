@@ -110,7 +110,7 @@ __pvm_activate_venv() {
 
   [[ "$VIRTUAL_ENV" == "$venv" ]] && return
 
-  if type deactivate >/dev/null 2>&1; then
+  if command -v deactivate >/dev/null 2>&1; then
     deactivate
   fi
 
