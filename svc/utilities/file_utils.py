@@ -15,7 +15,7 @@ def set_global_version_file(version: str):
 def get_global_version() -> str:
     version_file = File.CURRENT_DIR / "global-version"
     if not version_file.is_file():
-        sys.exit("No global python version set. Please set a global version using 'pvm default <version>'")
+        return '--- Not found ---'
 
     with open(version_file, 'r') as f:
         return f.read().strip()
