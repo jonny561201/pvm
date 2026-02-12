@@ -32,7 +32,7 @@ class OS:
 class Architecture:
     ARM = 'aarch64'
     INTEL = 'x86_64'
-    _mapping = {'arm64': ARM, 'aarch64': ARM, 'armv7l': ARM, 'armv6l': ARM, 'x86_64': INTEL, 'AMD64': INTEL, 'i386': INTEL, 'i686': INTEL}
+    _mapping = {'arm64': ARM, 'aarch64': ARM, 'armv7l': ARM, 'armv6l': ARM, 'x86_64': INTEL, 'amd64': INTEL, 'i386': INTEL, 'i686': INTEL}
 
     @staticmethod
     def detect():
