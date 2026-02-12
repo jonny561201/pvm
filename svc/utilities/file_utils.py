@@ -29,7 +29,7 @@ def set_python_link_windows(folder: Path):
         tmp_link.unlink()
 
     os.link(target, tmp_link)
-    os.replace(tmp_link, File.CURRENT_PYTHON)
+    os.replace(tmp_link, f'{File.CURRENT_PYTHON}.exe')
 
     return folder.name
 
