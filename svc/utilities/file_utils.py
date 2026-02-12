@@ -41,8 +41,38 @@ def set_global_python(version: str) -> str:
 
 
 def _get_python_executable(folder: str) -> Path:
-    python = File.VERSION_DIR / folder / 'python' if OS.detect() == OS.WINDOWS else File.VERSION_DIR / folder / 'python' / 'bin' / 'python'
+    python = File.VERSION_DIR / folder / 'python' / 'python.exe' if OS.detect() == OS.WINDOWS else File.VERSION_DIR / folder / 'python' / 'bin' / 'python'
 
     if not python.is_file() or python is None:
-        sys.exit(f"{folder} is not installed")
+        sys.exit(f"Unable to locate python executable in {folder}")
     return python
+
+
+# import ctypes
+# import sys
+# import os
+#
+# def is_admin():
+#     try:
+#         return ctypes.windll.shell32.IsUserAnAdmin()
+#     except:
+#         return False
+#
+# def relaunch_as_admin():
+#     params = " ".join([f'"{arg}"' for arg in sys.argv])
+#     ctypes.windll.shell32.ShellExecuteW(
+#         None,
+#         "runas",
+#         sys.executable,
+#         params,
+#         None,
+#         1,
+#     )
+#     sys.exit()
+#
+# if __name__ == "__main__":
+#     if os.name == "nt" and not is_admin():
+#         relaunch_as_admin()
+#
+#     # Now we are elevated
+#     os.symlink("target", "link_name")
