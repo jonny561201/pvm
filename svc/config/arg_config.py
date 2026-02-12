@@ -1,6 +1,6 @@
 import argparse
 
-from svc.services.command_service import install_latest_release, list_python_versions, set_default_version, \
+from svc.orchestrators.command_orchestrator import install_latest_release, list_python_versions, set_default_version, \
     use_python_version
 
 
