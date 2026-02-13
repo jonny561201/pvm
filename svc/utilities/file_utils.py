@@ -31,7 +31,7 @@ def copy_python_executables_windows(folder: Path):
 
 
 def set_python_symlink_unix(folder: Path):
-    target = _get_python_executable(folder.name)
+    target = _get_python_executable(folder)
     tmp_link = File.CURRENT_PYTHON.with_suffix(".tmp")
 
     if tmp_link.exists() or tmp_link.is_symlink():
@@ -43,8 +43,8 @@ def set_python_symlink_unix(folder: Path):
     return folder.name
 
 
-def _get_python_executable(folder: str) -> Path:
-    python = File.VERSION_DIR / folder / 'python' / 'python.exe' if OS.detect() == OS.WINDOWS else File.VERSION_DIR / folder / 'python' / 'bin' / 'python'
+def _get_python_executable(folder: Path) -> Path:
+    python = folder / 'python' / 'python.exe' if OS.detect() == OS.WINDOWS else folder / 'python' / 'bin' / 'python'
 
     if not python.is_file() or python is None:
         sys.exit(f"Unable to locate python executable in {folder}")
