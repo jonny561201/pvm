@@ -14,6 +14,7 @@ function create_pvm_directory() {
       mkdir -p "$DIR/versions"
       mkdir -p "$DIR/bin"
       mkdir -p "$DIR/sh"
+      mkdir -p "$DIR/python"
   else
       echo "Directory already exists: $DIR"
   fi
