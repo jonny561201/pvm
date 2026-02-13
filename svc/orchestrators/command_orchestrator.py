@@ -1,9 +1,9 @@
 import sys
 
 from svc.constants.file_constants import File
-from svc.services.file_service import set_global_python
+from svc.services.file_service import set_global_python, get_active_python_version
 from svc.services.folder_service import find_matching_release, update_paths
-from svc.utilities.file_utils import set_global_version_file, get_global_version
+from svc.utilities.file_utils import set_global_version_file
 from svc.utilities.folder_utils import get_python_version_folders, create_version_directory, find_python_version
 from svc.utilities.install_utils import download_python_release, extract_zip, delete_tar_file
 
@@ -22,9 +22,9 @@ def install_latest_release(version: str):
 def list_python_versions():
     directories = get_python_version_folders()
     versions = sorted([directory.name for directory in directories])
-    global_version = get_global_version()
+    active_version = get_active_python_version()
     for version in versions:
-        print(f" {'*' if global_version in version else ' '} {version}")
+        print(f" {'*' if active_version in version else ' '} {version}")
     if len(versions) == 0:
         print("No Python versions installed.")
 
