@@ -20,9 +20,9 @@ def set_global_python(version: str) -> str:
 
 def get_active_python_version() -> str:
     global_ver = get_global_version()
-    instance_ver = os.environ.get('PVM_VERSION').strip()
+    instance_ver = os.environ.get('PVM_VERSION')
 
-    if instance_ver is not None and instance_ver != '':
+    if instance_ver is not None and instance_ver.strip() != '':
         return instance_ver
 
     return global_ver
