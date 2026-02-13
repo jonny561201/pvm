@@ -1,4 +1,5 @@
 import os
+import shutil
 import sys
 from pathlib import Path
 
@@ -21,15 +22,10 @@ def get_global_version() -> str:
         return f.read().strip()
 
 
-def set_python_link_windows(folder: Path):
-    target = _get_python_executable(folder.name)
-    tmp_link = File.CURRENT_PYTHON.with_suffix(".tmp")
-
-    if tmp_link.exists():
-        tmp_link.unlink()
-
-    os.link(target, tmp_link)
-    os.replace(tmp_link, f'{File.CURRENT_PYTHON}.exe')
+def copy_python_executables_windows(folder: Path):
+    python_path = folder / 'python'
+    dest_path = File.DEFAULT_DIR
+    shutil.copytree(python_path, dest_path)
 
     return folder.name
 
