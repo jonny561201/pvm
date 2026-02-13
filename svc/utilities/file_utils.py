@@ -12,7 +12,6 @@ def set_global_version_file(version: str):
         f.write(version)
 
 
-#TODO: prioritize the PVM_VERSION env var!
 def get_global_version() -> str:
     version_file = File.BIN_DIR / "global-version"
     if not version_file.is_file():
