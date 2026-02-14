@@ -23,9 +23,9 @@ def update_paths(new_version: Path):
     return shlex.quote(f'{new_version.absolute()}:{updated_path}')
 
 
-def _remove_existing_versions_from_path(paths: str):
-    re.sub(r"(?:^|:)~/.pvm/versions/python-[^:/]+/bin", "", paths)
-    paths.strip(":")
-    re.sub(r":{2,}", ":", paths)
+def _remove_existing_versions_from_path(paths: str) -> str:
+    # Remove any PATH segment containing .pvm/versions/python-*
+    paths = re.sub(r"(?:^|:)[^:]*\.pvm/versions/python-[^:/]+(?:/python)?(?:/bin)?","", paths)
+    paths = re.sub(r":{2,}", ":", paths)
 
-    return paths
+    return paths.strip(":")
