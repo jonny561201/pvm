@@ -35,7 +35,7 @@
 
 # Install #
 - Linux / MacOS
-`curl -fsSL https://raw.githubusercontent.com/jonny561201/pvm/main/install.sh -o install.sh && chmod +x install.sh && ./install.sh`
+`curl -fsSL https://raw.githubusercontent.com/jonny561201/pvm/main/install.sh | bash`
 
 - Windows (Powershell)
 `iwr -useb https://raw.githubusercontent.com/jonny561201/pvm/main/install.ps1 | iex`
