@@ -37,11 +37,9 @@ def ensure_version_not_installed(version: str):
 
 def _get_full_version(url: str):
     pattern = r"cpython-(\d+)\.(\d+)\.(\d+)(?=(?:\+|%2B)\d+)"
-
-    m = re.search(pattern, url)
-    if not m:
+    matches = re.search(pattern, url)
+    if not matches:
         sys.exit("No Python version found to create python version folder")
 
-    major, minor, patch = m.groups()
+    major, minor, patch = matches.groups()
     return f"python-{major}.{minor}.{patch}"
-
