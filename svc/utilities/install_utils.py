@@ -9,7 +9,6 @@ from svc.utilities.requests import requests
 def download_python_release(url: str, pvm_dir: Path, file_name: str):
     print('...downloading python version...')
     pvm_dir.mkdir(parents=True, exist_ok=True)
-
     out_path = pvm_dir / file_name
     tmp_path = out_path.with_suffix(out_path.suffix + ".part")
 
@@ -28,26 +27,7 @@ def extract_zip(zip_path: Path, filename: str):
     print('...extracting python version...')
     file_path = zip_path / filename
     with tarfile.open(file_path, "r:*") as tf:
-        for member in tf.getmembers():
-            member_name = member.name
-            if not member_name:
-                continue
-
-            target_path = (zip_path / member_name).resolve()
-
-            if member.isdir():
-                target_path.mkdir(parents=True, exist_ok=True)
-            else:
-                target_path.parent.mkdir(parents=True, exist_ok=True)
-                src = tf.extractfile(member)
-                if src is None:
-                    continue
-                with src, open(target_path, "wb") as dst:
-                    shutil.copyfileobj(src, dst)
-                try:
-                    os.chmod(target_path, member.mode)
-                except Exception:
-                    pass
+        tf.extractall(zip_path)
 
 
 def delete_tar_file(pvm_dir: Path, filename: str):
