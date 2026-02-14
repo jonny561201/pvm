@@ -3,17 +3,12 @@ import shutil
 import tarfile
 from pathlib import Path
 
-from svc.constants.file_constants import FileMode
 from svc.utilities.requests import requests
 
 
 def download_python_release(url: str, pvm_dir: Path, file_name: str):
     print('...downloading python version...')
     pvm_dir.mkdir(parents=True, exist_ok=True)
-    try:
-        os.chmod(pvm_dir, FileMode.READ_WRITE_EXEC)
-    except PermissionError:
-        pass
 
     out_path = pvm_dir / file_name
     tmp_path = out_path.with_suffix(out_path.suffix + ".part")
