@@ -6,14 +6,36 @@ from svc.utilities.folder_utils import find_python_version, get_python_version_f
 
 
 @patch('svc.utilities.folder_utils.File.VERSION_DIR')
-@patch('svc.utilities.folder_utils.sys')
-def test_find_python_version__should_exit_early_when_directory_not_exist(sys_mock, dir_mock):
+def test_find_python_version__should_return_none_when_directory_not_exist(dir_mock):
     version = '3.1.12'
     dir_mock.exists.return_value = False
 
-    find_python_version(version)
+    actual = find_python_version(version)
 
-    sys_mock.exit.assert_called_with(f'python {version} is not installed')
+    assert actual is None
+
+
+@patch('svc.utilities.folder_utils.File.VERSION_DIR')
+def test_find_python_version__should_return_none_when_folder_contains_wrong_partial_version_match(dir_mock):
+    version = '3.12'
+    dir_mock.exists.return_value = False
+    dir_mock.iterdir.return_value = [__create_mock_path('python-3.13.12')]
+
+    actual = find_python_version(version)
+
+    assert actual is None
+
+
+@patch('svc.utilities.folder_utils.File.VERSION_DIR')
+def test_find_python_version__should_return_directory_name_when_match(dir_mock):
+    version = '3.13'
+    directory = 'python-3.13.11'
+    dir_mock.exists.return_value = False
+    dir_mock.iterdir.return_value = [__create_mock_path(directory)]
+
+    actual = find_python_version(version)
+
+    assert actual is directory
 
 
 @patch('svc.utilities.folder_utils.File.VERSION_DIR')
