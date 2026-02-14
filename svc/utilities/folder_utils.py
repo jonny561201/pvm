@@ -3,7 +3,7 @@ import re
 import sys
 from pathlib import Path
 
-from svc.constants.file_constants import FileMode, File
+from svc.constants.file_constants import File
 
 
 def create_version_directory(release: str):
