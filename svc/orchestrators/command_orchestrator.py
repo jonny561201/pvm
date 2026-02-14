@@ -8,6 +8,8 @@ from svc.utilities.folder_utils import get_python_version_folders, create_versio
 
 
 def install_latest_release(version: str):
+    if find_python_version(version):
+        sys.exit(f"pvm: Python {version} is already installed")
     release = find_matching_release(version)
     file_name = f"{version}.tgz"
     folder_name = create_version_directory(release)
@@ -33,6 +35,8 @@ def set_default_version(version: str):
 
 def use_python_version(version: str):
     folder = find_python_version(version)
+    if not folder:
+        sys.exit(f"python {version} is not installed")
     executable = File.VERSION_DIR / folder / 'python' / 'bin'
     new_path = update_paths(executable)
 

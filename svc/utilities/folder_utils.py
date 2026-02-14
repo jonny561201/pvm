@@ -25,7 +25,7 @@ def find_python_version(version: str):
     for item in File.VERSION_DIR.iterdir():
         if item.is_dir() and version in item.name:
             return item.name
-    sys.exit(f"python {version} is not installed")
+    return None
 
 
 def ensure_version_not_installed(version: str):
