@@ -1,14 +1,14 @@
 import sys
 
-from svc.constants.file_constants import File
+from svc.constants.file_constants import OS
 from svc.services.file_service import set_global_python, get_active_python_version, download_extract_binaries
 from svc.services.folder_service import find_matching_release, update_paths
 from svc.utilities.file_utils import set_global_version_file
-from svc.utilities.folder_utils import get_python_version_folders, create_version_directory, find_python_version
+from svc.utilities.folder_utils import get_python_version_folders, create_version_directory, find_python_version_dir
 
 
 def install_latest_release(version: str):
-    if find_python_version(version):
+    if find_python_version_dir(version):
         sys.exit(f"pvm: Python {version} is already installed")
     release = find_matching_release(version)
     file_name = f"{version}.tgz"
@@ -34,11 +34,11 @@ def set_default_version(version: str):
 
 
 def use_python_version(version: str):
-    folder = find_python_version(version)
+    folder = find_python_version_dir(version)
     if not folder:
         sys.exit(f"python {version} is not installed")
-    executable = File.VERSION_DIR / folder / 'python' / 'bin'
-    new_path = update_paths(executable)
+    executable_path = folder / 'python' if OS.detect() == OS.WINDOWS else folder / 'python' / 'bin'
+    new_path = update_paths(executable_path)
 
     print(f"export PATH={new_path}")
     print(f'export PVM_VERSION="{folder}"')

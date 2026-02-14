@@ -2,7 +2,7 @@ from pathlib import Path
 
 from mock import patch, Mock
 
-from svc.utilities.folder_utils import find_python_version, get_python_version_folders, ensure_version_not_installed
+from svc.utilities.folder_utils import find_python_version_dir, get_python_version_folders, ensure_version_not_installed
 
 
 @patch('svc.utilities.folder_utils.File.VERSION_DIR')
@@ -10,7 +10,7 @@ def test_find_python_version__should_return_none_when_directory_not_exist(dir_mo
     version = '3.1.12'
     dir_mock.exists.return_value = False
 
-    actual = find_python_version(version)
+    actual = find_python_version_dir(version)
 
     assert actual is None
 
@@ -21,7 +21,7 @@ def test_find_python_version__should_return_none_when_folder_contains_wrong_part
     dir_mock.exists.return_value = False
     dir_mock.iterdir.return_value = [__create_mock_path('python-3.13.12')]
 
-    actual = find_python_version(version)
+    actual = find_python_version_dir(version)
 
     assert actual is None
 
@@ -33,7 +33,7 @@ def test_find_python_version__should_return_directory_name_when_match(dir_mock):
     dir_mock.exists.return_value = False
     dir_mock.iterdir.return_value = [__create_mock_path(directory)]
 
-    actual = find_python_version(version)
+    actual = find_python_version_dir(version)
 
     assert actual is directory
 

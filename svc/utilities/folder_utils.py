@@ -21,10 +21,10 @@ def get_python_version_folders() -> list[Path]:
     return list(filter(lambda folder: folder.is_dir() and folder.name.startswith("python-"), version_dir.iterdir()))
 
 
-def find_python_version(version: str):
+def find_python_version_dir(version: str):
     for item in File.VERSION_DIR.iterdir():
         if item.is_dir() and item.name.startswith(f'python-{version}'):
-            return item.name
+            return item
     return None
 
 
