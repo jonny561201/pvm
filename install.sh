@@ -4,7 +4,7 @@
 DIR="$HOME/.pvm"
 ZSHRC="$HOME/.zshrc"
 BASHRC="$HOME/.bashrc"
-PVM_PATH_LINE='export PATH="$HOME/.pvm/bin:$PATH"'
+PVM_PATH_LINE='export PATH="$HOME/.pvm/python:$PATH"'
 PVM_SOURCE_LINE='source "$HOME/.pvm/sh/pvm.sh"'
 
 
