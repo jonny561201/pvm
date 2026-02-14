@@ -3,13 +3,6 @@ import sys
 from pathlib import Path
 
 
-class FileMode:
-    READ_WRITE_EXEC = 0o700
-    READ = 0o500
-    WRITE = 0o400
-    EXEC = 0o400
-
-
 class File:
     PVM_DIR = Path.home() / '.pvm'
     VERSION_DIR = PVM_DIR / 'versions'
