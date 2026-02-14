@@ -24,7 +24,7 @@ def get_global_version() -> str:
 def copy_python_executables_windows(folder: Path):
     python_path = folder / 'python'
     dest_path = File.DEFAULT_DIR
-    shutil.copytree(python_path, dest_path)
+    shutil.copytree(python_path, dest_path, dirs_exist_ok=True)
 
     return folder.name
 
