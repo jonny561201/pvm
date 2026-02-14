@@ -60,10 +60,21 @@ __pvm_strip_path() {
 }
 
 __pvm_read_version() {
-  sed -e 's/#.*//' \
-      -e 's/^[[:space:]]*//' \
-      -e 's/[[:space:]]*$//' \
-      "$1"
+#  sed -e 's/#.*//' \
+#      -e 's/^[[:space:]]*//' \
+#      -e 's/[[:space:]]*$//' \
+#      "$1"
+ local line
+  IFS= read -r line < "$1" || return 1
+
+  # Strip comments
+  line="${line%%#*}"
+  # Trim leading whitespace
+  line="${line#"${line%%[![:space:]]*}"}"
+  # Trim trailing whitespace
+  line="${line%"${line##*[![:space:]]}"}"
+
+  printf '%s\n' "$line"
 }
 
 __pvm_resolve_version() {
