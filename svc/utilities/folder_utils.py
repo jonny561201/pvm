@@ -23,7 +23,7 @@ def get_python_version_folders() -> list[Path]:
 
 def find_python_version(version: str):
     for item in File.VERSION_DIR.iterdir():
-        if item.is_dir() and version in item.name:
+        if item.is_dir() and version in item.name.startswith(f'python-{version}'):
             return item.name
     return None
 
