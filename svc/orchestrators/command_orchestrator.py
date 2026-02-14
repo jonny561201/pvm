@@ -1,22 +1,17 @@
 import sys
 
 from svc.constants.file_constants import File
-from svc.services.file_service import set_global_python, get_active_python_version
+from svc.services.file_service import set_global_python, get_active_python_version, download_extract_binaries
 from svc.services.folder_service import find_matching_release, update_paths
 from svc.utilities.file_utils import set_global_version_file
 from svc.utilities.folder_utils import get_python_version_folders, create_version_directory, find_python_version
-from svc.utilities.install_utils import download_python_release, extract_zip, delete_tar_file
 
 
 def install_latest_release(version: str):
     release = find_matching_release(version)
     file_name = f"{version}.tgz"
     folder_name = create_version_directory(release)
-
-    directory = File.VERSION_DIR / folder_name
-    download_python_release(release, directory, file_name)
-    extract_zip(directory, file_name)
-    delete_tar_file(directory, file_name)
+    download_extract_binaries(file_name, folder_name, release)
 
 
 def list_python_versions():

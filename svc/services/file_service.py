@@ -1,9 +1,10 @@
 import os
 import sys
 
-from svc.constants.file_constants import OS
+from svc.constants.file_constants import OS, File
 from svc.utilities.file_utils import copy_python_executables_windows, set_python_symlink_unix, get_global_version
 from svc.utilities.folder_utils import get_python_version_folders
+from svc.utilities.install_utils import download_python_release, extract_zip, delete_tar_file
 
 
 def set_global_python(version: str) -> str:
@@ -26,3 +27,10 @@ def get_active_python_version() -> str:
         return instance_ver
 
     return global_ver
+
+
+def download_extract_binaries(file_name: str, folder_name: str, release: str):
+    directory = File.VERSION_DIR / folder_name
+    download_python_release(release, directory, file_name)
+    extract_zip(directory, file_name)
+    delete_tar_file(directory, file_name)
