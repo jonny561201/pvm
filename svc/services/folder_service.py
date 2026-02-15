@@ -24,8 +24,9 @@ def update_paths(new_version: Path):
 
 
 def _remove_existing_versions_from_path(paths: str) -> str:
-    # Remove any PATH segment containing .pvm/versions/python-*
-    paths = re.sub(r"(?:^|:)[^:]*\.pvm/versions/python-[^:/]+(?:/python)?(?:/bin)?","", paths)
-    paths = re.sub(r":{2,}", ":", paths)
+    sep = os.pathsep  # ':' on mac/Linux, ';' on Windows
+    pattern = rf"(?:^{sep}|{sep})[^ {sep}]*[.]pvm[/\\]versions[/\\]python-[^ {sep}:]+(?:[/\\]python)?(?:[/\\]bin)?"
+    paths = re.sub(pattern, "", paths)
+    paths = re.sub(rf"{sep}{{2,}}", sep, paths)
 
-    return paths.strip(":")
+    return paths.strip(sep)
