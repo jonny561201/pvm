@@ -35,6 +35,18 @@ __pvm_read_version_file() {
   [[ -n "$line" ]] && printf '%s\n' "$line"
 }
 
+__pvm_find_venv() {
+  for name in .venv venv; do
+    for sub in bin Scripts; do
+      if [[ -f "$PWD/$name/$sub/activate" ]]; then
+        echo "$PWD/$name/$sub/activate"
+        return 0
+      fi
+    done
+  done
+  return 1
+}
+
 __pvm_hook() {
   local version required_version venv
 
@@ -46,14 +58,15 @@ __pvm_hook() {
     fi
   done
 
-  if [[ -n "$venv" ]]; then
-    if [[ "$__PVM_ACTIVE_VENV" != "$venv" ]]; then
+  if activate_script="$(__pvm_find_venv)"; then
+    if [[ "$__PVM_ACTIVE_VENV" != "$activate_script" ]]; then
       if command -v deactivate >/dev/null 2>&1; then
         deactivate
       fi
+
       # shellcheck disable=SC1090
-      source "$venv/bin/activate"
-      __PVM_ACTIVE_VENV="$venv"
+      source "$activate_script"
+      __PVM_ACTIVE_VENV="$activate_script"
     fi
     return
   fi
