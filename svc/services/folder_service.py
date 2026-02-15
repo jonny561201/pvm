@@ -17,14 +17,17 @@ def find_matching_release(version: str):
 
 
 def update_paths(new_version: Path):
+    separator = os.pathsep  # ':' on mac/Linux, ';' on Windows
     paths = os.environ.get('PATH')
-    updated_path = _remove_existing_versions_from_path(paths)
+    updated_path = _remove_existing_versions_from_path(paths, separator)
 
-    return shlex.quote(f'{new_version.absolute()}:{updated_path}')
+    segments = [str(new_version.absolute())] + updated_path.split(separator)
+    safe_segments = [f'"{s}"' if ' ' in s else s for s in segments]
+
+    return separator.join(safe_segments)
 
 
-def _remove_existing_versions_from_path(paths: str) -> str:
-    sep = os.pathsep  # ':' on mac/Linux, ';' on Windows
+def _remove_existing_versions_from_path(paths: str, sep: str) -> str:
     pattern = rf"(?:^{sep}|{sep})[^ {sep}]*[.]pvm[/\\]versions[/\\]python-[^ {sep}:]+(?:[/\\]python)?(?:[/\\]bin)?"
     paths = re.sub(pattern, "", paths)
     paths = re.sub(rf"{sep}{{2,}}", sep, paths)
