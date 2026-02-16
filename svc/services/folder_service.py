@@ -15,26 +15,32 @@ def find_matching_release(version: str):
     return find_python_release(releases, version, OS.detect(), Architecture.detect())
 
 
-def update_paths(new_version: Path):
-    separator = os.pathsep  # ':' on mac/Linux, ';' on Windows
-    paths = os.environ.get('PATH')
-    updated_path = _remove_existing_versions_from_path(paths, separator)
+def update_paths(new_version: Path) -> str:
+    paths = os.environ.get('PATH', '')
+    updated_paths = _remove_existing_versions_from_path(paths)
+    segments = [p for p in updated_paths.split(":") if p]
 
-    # Split existing PATH and convert all \ to /
-    old_segments = [p.replace("\\", "/") for p in updated_path.split(separator) if p]
-    # New version path, converted to forward slashes
-    new_version_str = str(new_version.absolute()).replace("\\", "/")
-    # Combine new version + old paths
-    all_segments = [new_version_str] + old_segments
-    # Quote every segment
-    safe_segments = [f'"{s}"' for s in all_segments]
+    new_path = str(new_version.absolute())
+    if OS.detect() == OS.WINDOWS:
+        new_path = _win_to_msys(new_path)
 
-    return separator.join(safe_segments)
+    new_segments = [new_path] + segments
+
+    return ":".join(new_segments)
 
 
-def _remove_existing_versions_from_path(paths: str, sep: str) -> str:
-    pattern = rf"(?:^{sep}|{sep})[^ {sep}]*[.]pvm[/\\]versions[/\\]python-[^ {sep}:]+(?:[/\\]python)?(?:[/\\]bin)?"
-    paths = re.sub(pattern, "", paths)
-    paths = re.sub(rf"{sep}{{2,}}", sep, paths)
+def _remove_existing_versions_from_path(paths: str) -> str:
+    sep = ":"
+    pattern = r"(?:^|:)[^:]*[\\/]\.pvm[\\/]+versions[\\/]+python-[^\\/:\s]+(?:[\\/]+python)?(?:[\\/]+bin)?"
+    paths = re.sub(pattern, "", paths, flags=re.VERBOSE)
+    paths = re.sub(r":{2,}", ":", paths)
 
     return paths.strip(sep)
+
+
+def _win_to_msys(path: str) -> str:
+    p = Path(path)
+    drive = p.drive.rstrip(":").lower()
+    rest = p.as_posix().split(":", 1)[-1]
+
+    return f"/{drive}{rest}"
