@@ -20,9 +20,14 @@ def update_paths(new_version: Path):
     paths = os.environ.get('PATH')
     updated_path = _remove_existing_versions_from_path(paths, separator)
 
+    # Split existing PATH and convert all \ to /
+    old_segments = [p.replace("\\", "/") for p in updated_path.split(separator) if p]
+    # New version path, converted to forward slashes
     new_version_str = str(new_version.absolute()).replace("\\", "/")
-    segments = [new_version_str] + updated_path.split(separator)
-    safe_segments = [f'"{s}"' for s in segments]
+    # Combine new version + old paths
+    all_segments = [new_version_str] + old_segments
+    # Quote every segment
+    safe_segments = [f'"{s}"' for s in all_segments]
 
     return separator.join(safe_segments)
 
