@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 from pathlib import Path
 
 from svc.constants.file_constants import Architecture, OS
@@ -23,7 +24,9 @@ def update_paths(new_version: Path) -> str:
     new_path = str(new_version.absolute()) if OS.detect() != OS.WINDOWS else _win_to_msys(str(new_version.absolute()))
     segments.append(new_path)
 
-    return ":".join(segments)
+    test = ":".join(segments)
+    print(test, file=sys.stderr)
+    return test
 
 
 def _remove_existing_versions_from_path(paths: str) -> str:
