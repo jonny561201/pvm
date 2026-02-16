@@ -41,5 +41,5 @@ def use_python_version(version: str):
     new_path = update_paths(executable_path)
 
     print(f"export PATH={new_path}")
-    print(f'export PVM_VERSION="{folder}"')
-    print(f"pvm: using python version {folder}", file=sys.stderr)
+    print(f'export PVM_VERSION="{folder.name}"')
+    print(f"pvm: using python version {folder.name}", file=sys.stderr)
