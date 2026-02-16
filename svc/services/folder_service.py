@@ -20,13 +20,10 @@ def update_paths(new_version: Path) -> str:
     updated_paths = _remove_existing_versions_from_path(paths)
     segments = [p for p in updated_paths.split(":") if p]
 
-    new_path = str(new_version.absolute())
-    if OS.detect() == OS.WINDOWS:
-        new_path = _win_to_msys(new_path)
+    new_path = str(new_version.absolute()) if OS.detect() != OS.WINDOWS else _win_to_msys(str(new_version.absolute()))
+    segments.append(new_path)
 
-    new_segments = [new_path] + segments
-
-    return ":".join(new_segments)
+    return ":".join(segments)
 
 
 def _remove_existing_versions_from_path(paths: str) -> str:
