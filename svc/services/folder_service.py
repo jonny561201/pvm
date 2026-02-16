@@ -1,6 +1,5 @@
 import os
 import re
-import sys
 from pathlib import Path
 
 from svc.constants.file_constants import Architecture, OS
@@ -17,16 +16,18 @@ def find_matching_release(version: str):
 
 
 def update_paths(new_version: Path) -> str:
+    sep = os.pathsep
     paths = os.environ.get('PATH', '')
     updated_paths = _remove_existing_versions_from_path(paths)
-    segments = [p for p in updated_paths.split(":") if p]
+    segments = [p for p in updated_paths.split(sep) if p]
 
-    new_path = str(new_version.absolute()) if OS.detect() != OS.WINDOWS else _win_to_msys(str(new_version.absolute()))
+    new_path = str(new_version.absolute())
     segments.append(new_path)
 
-    test = ":".join(segments)
-    print(test, file=sys.stderr)
-    return test
+    if OS.detect() == OS.WINDOWS:
+        segments = [_win_to_msys(item) for item in segments]
+
+    return ":".join(segments)
 
 
 def _remove_existing_versions_from_path(paths: str) -> str:
