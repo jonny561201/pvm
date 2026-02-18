@@ -18,11 +18,9 @@ def find_matching_release(version: str):
 def update_paths(new_version: Path) -> str:
     sep = os.pathsep
     paths = os.environ.get('PATH', '')
-    updated_paths = _remove_existing_versions_from_path(paths)
-    segments = [p for p in updated_paths.split(sep) if p]
-
-    new_path = str(new_version.absolute())
-    segments.append(new_path)
+    cleaned_path = _remove_existing_versions_from_path(paths)
+    updated_path = [str(new_version.absolute())] + cleaned_path.split(sep)
+    segments = [p for p in updated_path if p]
 
     if OS.detect() == OS.WINDOWS:
         segments = [_win_to_msys(item) for item in segments]
