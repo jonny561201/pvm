@@ -17,7 +17,7 @@ def execute_commands(args: argparse.Namespace):
 
 # TODO: command for list available (to show available versions to download)
 def register_commands(parser: argparse.ArgumentParser):
-    parser.add_argument('--version', '-V', action='version', version='1.03', help='Version of PVM installed')
+    parser.add_argument('--version', '-V', action='version', version='1.04', help='Version of PVM installed')
     subparsers = parser.add_subparsers(dest='command', required=True)
     _register_subcommands(subparsers)
 
