@@ -1,3 +1,4 @@
+import shlex
 import sys
 
 from svc.constants.file_constants import OS
@@ -40,6 +41,6 @@ def use_python_version(version: str):
     executable_path = folder / 'python' if OS.detect() == OS.WINDOWS else folder / 'python' / 'bin'
     new_path = update_paths(executable_path)
 
-    print(f"export PATH={new_path}")
-    print(f'export PVM_VERSION="{folder.name}"')
+    print(f"export PATH={shlex.quote(new_path)}")
+    print(f'export PVM_VERSION={shlex.quote(folder.name)}')
     print(f"pvm: using python version {folder.name}", file=sys.stderr)
