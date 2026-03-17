@@ -26,11 +26,9 @@ def copy_python_executables_windows(folder: Path):
     dest_path = File.DEFAULT_DIR
     shutil.copytree(python_path, dest_path, dirs_exist_ok=True)
 
-    return folder.name
 
-
-def set_python_symlink_unix(folder: Path):
-    target = _get_python_executable(folder)
+def set_symlink_unix(folder: Path, executable: str):
+    target = _get_executable(folder, executable)
     tmp_link = File.CURRENT_PYTHON.with_suffix(".tmp")
 
     if tmp_link.exists() or tmp_link.is_symlink():
@@ -39,12 +37,10 @@ def set_python_symlink_unix(folder: Path):
     os.symlink(target, tmp_link)
     os.replace(tmp_link, File.CURRENT_PYTHON)
 
-    return folder.name
 
-
-def _get_python_executable(folder: Path) -> Path:
-    python = folder / 'python' / 'python.exe' if OS.detect() == OS.WINDOWS else folder / 'python' / 'bin' / 'python'
+def _get_executable(folder: Path, executable: str) -> Path:
+    python = folder / 'python' / 'bin' / executable
 
     if not python.is_file() or python is None:
-        sys.exit(f"Unable to locate python executable in {folder}")
+        sys.exit(f"Unable to locate {executable} executable in {folder}")
     return python

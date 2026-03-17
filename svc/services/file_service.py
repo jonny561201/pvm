@@ -2,7 +2,7 @@ import os
 import sys
 
 from svc.constants.file_constants import OS, File
-from svc.utilities.file_utils import copy_python_executables_windows, set_python_symlink_unix, get_global_version
+from svc.utilities.file_utils import copy_python_executables_windows, set_symlink_unix, get_global_version
 from svc.utilities.folder_utils import get_python_version_folders
 from svc.utilities.install_utils import download_python_release, extract_zip, delete_tar_file
 
@@ -14,9 +14,11 @@ def set_global_python(version: str) -> str:
         sys.exit(f"python {version} is not installed")
 
     if OS.detect() == OS.WINDOWS:
-        return copy_python_executables_windows(folder)
-
-    return set_python_symlink_unix(folder)
+        copy_python_executables_windows(folder)
+    else:
+        set_symlink_unix(folder, 'python')
+        set_symlink_unix(folder, 'pip')
+    return folder.name
 
 
 def get_active_python_version() -> str:
