@@ -8,7 +8,6 @@ class File:
     VERSION_DIR = PVM_DIR / 'versions'
     BIN_DIR = PVM_DIR / 'bin'
     DEFAULT_DIR = PVM_DIR / 'python'
-    CURRENT_PYTHON = DEFAULT_DIR / 'python'
 
 
 class OS:

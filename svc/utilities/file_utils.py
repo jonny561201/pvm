@@ -29,13 +29,14 @@ def copy_python_executables_windows(folder: Path):
 
 def set_symlink_unix(folder: Path, executable: str):
     target = _get_executable(folder, executable)
-    tmp_link = File.CURRENT_PYTHON.with_suffix(".tmp")
+    executable_loc = File.DEFAULT_DIR / executable
+    tmp_link = executable_loc.with_suffix(".tmp")
 
     if tmp_link.exists() or tmp_link.is_symlink():
         tmp_link.unlink()
 
     os.symlink(target, tmp_link)
-    os.replace(tmp_link, File.CURRENT_PYTHON)
+    os.replace(tmp_link, executable_loc)
 
 
 def _get_executable(folder: Path, executable: str) -> Path:
